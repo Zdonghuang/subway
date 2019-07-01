@@ -1,0 +1,145 @@
+<div *ngIf="showlist">
+  <div>
+    <input placeholder="{{ 'appname' | translate }}" (change)="search_app=$event.target.value" type="search" class="form-control input-underline" placeholder="" style="width:300px;display:inline-block">
+    &nbsp;&nbsp;<button class="btn-sm btn-info" (click)="totalList=[];getapplist(1)">{{ 'Search' | translate }}</button>
+  </div>
+  <br>
+  <br>
+  <ul class="page" (click)="appindex($event)">
+    <li class="prev prevv">«</li>
+    <li *ngFor="let s of totalList" style="width:28px" class="{{s.stylename}}">{{s.num}}</li>
+    <li class="next">»</li>
+  </ul>&nbsp;&nbsp;&nbsp;&nbsp;
+  {{ 'Every page show' | translate }}：<select style="padding: 4px;vertical-align: middle;margin-top: -1px;" (change)="setstate($event)">
+    <option value="" >{{ 'please select' | translate }}</option>
+    <option value="10">{{'ten' | translate }}</option>
+    <option value="15">{{'fifteen' | translate }}</option>
+    <option value="20">{{'twenty' | translate }}</option>
+    <option value="{{count}}">{{'all' | translate }}</option>
+  </select>&nbsp;&nbsp;&nbsp;
+  <select style="padding: 4px;vertical-align: middle;margin-top: -1px;" (change)="setstate($event)">
+    <option value="" >{{ 'please select' | translate }}</option>
+    <option value="2">{{'pending review' | translate }}</option>
+    <option value="3">{{'audited' | translate }}</option>
+    <option value="6">{{'published' | translate }}</option>
+  </select>&nbsp;&nbsp;&nbsp;
+  <button class="btn-sm btn-success"><a href="" style="color: black" (click)="toExcel('table',$event)">{{ 'export form' | translate }}</a></button>
+  <br>
+  <br>
+  <table class="table table-hover table-striped"  id="table">
+  <thead>
+    <tr style="cursor:pointer;line-height: 60px">
+      <th class="bt" style="width:70px" (click)="setorder('id')"># <span class="{{calssn}}" (click)="setorderby();$event.stopPropagation()"></span></th>
+      <th class="bt" (click)="setorder('userName')">{{ 'username' | translate }}</th>
+      <th class="bt" (click)="setorder('appname')">{{ 'appname' | translate }}</th>
+      <th class="bt" (click)="setorder('appUrl')">{{ 'appUrl' | translate }}</th>
+      <th class="bt" (click)="setorder('bundleId')">{{ 'bundleId' | translate }}</th>
+      <th class="bt" *ngIf="showtable">{{ 'version' | translate }}</th>
+      <th class="bt" *ngIf="showtable">{{ 'category' | translate }}</th>
+      <th class="bt" *ngIf="showtable">{{ 'text' | translate }}</th>
+      <th class="bt" *ngIf="showtable">{{ 'appPath' | translate }}</th>
+      <th class="bt" *ngIf="showtable">{{ 'createTime' | translate }}</th>
+      <th class="bt" (click)="setorder('state')">{{ 'state' | translate }}</th>
+      <th class="bt" *ngIf="showtable">{{ 'updateTime' | translate }}</th>
+      <th class="bt">{{ 'image' | translate }}</th>
+      <th class="bt">{{ 'isShow' | translate}}</th>
+      <th class="bt" style="width:100px">{{ 'operate' | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of applist">
+      <td style="cursor:pointer" (click)="appinfo=item;showuserinfo=true">{{item.id}}</td>
+      <td>{{item.userName}}</td>
+      <td style="cursor: pointer" (click)="opencont(item)">{{item.appname}}</td>
+      <td><a href="{{urlid===item.id?url:item.appUrl}}" target="__blank">{{urlid===item.id?url:item.appUrl}}</a></td>
+      <td>{{item.bundleId}}</td>
+      <td *ngIf="showtable">{{item.version}}</td>
+      <td *ngIf="showtable">{{item.category}}</td>
+      <td *ngIf="showtable">{{item.description}}</td>
+      <td *ngIf="showtable">{{item.appPatd}}</td>
+      <td *ngIf="showtable">{{item.createTime}}</td>
+      <td *ngIf="item.state===2">{{ 'pending review' | translate }}</td>
+      <td *ngIf="item.state===3||item.state===4">{{ 'audited' | translate }}</td>
+      <td *ngIf="item.state===6">{{ 'published' | translate }}</td>
+      <td *ngIf="showtable">{{item.updateTime}}</td>
+      <td><img src="{{item.image}}" width="60px" (click)="openimg(item)"></td>
+      <td>
+        <button *ngIf="item.isShow==='0'||item.isShow===''" class="btn-sm btn-success" (click)="updateaApp(item,'1')">{{ 'yes' | translate }}</button>
+        <button *ngIf="item.isShow==='1'" class="btn-sm btn-success" (click)="updateaApp(item,'0')">{{ 'no' | translate }}</button>
+      </td>
+      <td>
+        <button class="btn-sm btn-success" *ngIf="item.state===2" (click)="goReview(item)">{{ 'one-click configuration' | translate }}</button>
+        <button class="btn-sm btn-warning" *ngIf="item.state===3||item.state===4" style="margin-top:4px" (click)="goRelease(item)">{{ 'one-click release' | translate }}</button>
+        <button class="btn-sm btn-danger" *ngIf="item.state===3" style="margin-top:4px" (click)="goObtained(item)">{{ 'one-click withdrawal' | translate }}</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div  *ngIf="showuserinfo" style="position: fixed;background: rgba(0, 0, 0, 0.5);top:50%;left: 50%;height:100%;width:100%;transform: translate(-50%,-50%);z-index: 100000000;">
+  <div style="padding:0 80px ;background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:700px;width:800px;transform: translate(-50%,-50%);z-index: 100000000;">
+      <br>
+      <div style="line-height:44px">appId:<input disabled style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg" value="{{appinfo.appId}}"></div>
+      <div style="line-height:44px">{{ 'username' | translate }}:<input  style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg" (change)="appinfo.userName=$event.target.value" value="{{appinfo.userName}}"></div>
+      <div style="line-height:44px">{{ 'developer' | translate }}:<input  style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg" (change)="appinfo.customDeveloper=$event.target.value" value="{{appinfo.customDeveloper}}"></div>
+      <div style="line-height:44px">{{ 'appname' | translate }}:<input  style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg" (change)="appinfo.appname=$event.target.value" value="{{appinfo.appname}}"></div>
+      <div style="line-height:44px">{{ 'appUrl' | translate }}:<input  style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg" (change)="appinfo.appUrl=$event.target.value" value="{{appinfo.appUrl}}"></div>
+      <div style="line-height:44px">{{ 'bundleId' | translate }}:<input  style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg" (change)="appinfo.bundleId=$event.target.value" value="{{appinfo.bundleId}}"></div>
+      <div style="line-height:44px">{{ 'version' | translate }}:<input  style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg" (change)="appinfo.version=$event.target.value" value="{{appinfo.version}}"></div>
+      <div style="line-height:44px">{{ 'category' | translate }}:
+        <select class="btn-sm" (change)="categoryChange($event,1)" id="categorys" style="background:silver;position: absolute;left: 270px;top:342px;">
+          <option value="" selected="selected">{{ 'please select' | translate }}</option>
+          <option *ngFor="let n of category" value="{{n}}" selected="{{n===appinfo.category?'selected':''}}">{{n}}</option>
+        </select>
+        <input  style="width:44%;float:right;margin-top:6px" class="form-control input-underline input-lg" (input)="categoryChange($event,2)" id="category">
+      </div>
+      <div style="line-height:44px">{{ 'text' | translate }}:<textarea  style="width:70%;float:right;margin-top:6px;resize: none" class="form-control input-underline input-lg" (change)="settext($event)" wrap="hard">{{appinfo.description}}</textarea></div>
+      <br>
+      <div style="line-height:44px">{{ 'appPath' | translate }}:<input  style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg" (change)="appinfo.appPath=$event.target.value" value="{{appinfo.appPath}}"></div>
+      <div style="line-height:44px">{{ 'createTime' | translate }}:<input  style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg" (change)="appinfo.createTime=$event.target.value" value="{{appinfo.createTime}}"></div>
+      <div style="line-height:44px">{{ 'state' | translate }}:
+        <select class="btn-sm" style="background:silver;margin: 10px 0 0 150px;" (change)="setState($event.target.value)">
+          <option value="2" selected="{{appinfo.state===2?'selected':''}}">待审核</option>
+          <option value="3" selected="{{appinfo.state===3?'selected':''}}">审核失败</option>
+          <option value="6" selected="{{appinfo.state===6?'selected':''}}">审核成功且上线</option>
+        </select>
+      </div>
+      <div style="line-height:44px">{{ 'updateTime' | translate }}:<input  style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg" (change)="appinfo.updateTime=$event.target.value" value="{{appinfo.updateTime}}"></div>
+      <button style="position: absolute;bottom: 14px;right:140px" class="btn-sm btn-danger" (click)="showuserinfo=false">{{'cancel' | translate }}</button>
+      <button style="position: absolute;bottom: 14px;right:80px" class="btn-sm btn-success" (click)="upappifo();">{{'ok' | translate }}</button>
+  </div>
+</div>
+<div  *ngIf="showpic" style="position: fixed;background: rgba(0, 0, 0, 0.5);top:50%;left: 50%;height:100%;width:100%;transform: translate(-50%,-50%);z-index: 100000000;">
+<div style="padding:0 30px ;background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:700px;width:1000px;transform: translate(-50%,-50%);z-index: 100000000;">
+  <img *ngIf="bigpic" (click)="delimg(bigpic,'bigpic')" src="{{bigpic}}" style="position: absolute;top:2%;left: 50%;transform: translateX(-50%);width:200px">
+  <img src="{{image.image1}}" (click)="delimg(image.image1,'image1')" style="margin-top:300px;width:155px">
+  <img src="{{image.image2}}" (click)="delimg(image.image2,'image2')" style="margin-left:95px;margin-top:300px;width:155px">
+  <img src="{{image.image3}}" (click)="delimg(image.image3,'image3')" style="margin-left:95px;margin-top:300px;width:155px">
+  <img src="{{image.image4}}" (click)="delimg(image.image4,'image4')" style="margin-left:95px;margin-top:300px;width:155px">
+  <br>
+  <br>
+  应用图片：<input type="file" (change)="upapppic('bigpic',$event,bigpic)">
+  <br>
+  <br>
+  应用详情图片1：<input type="file" (change)="upapppic('image1',$event,image.image1)">
+  应用详情图片2：<input type="file" (change)="upapppic('image2',$event,image.image2)">
+  <br>
+  <br>
+  应用详情图片3：<input type="file" (change)="upapppic('image3',$event,image.image3)">
+  应用详情图片4：<input type="file" (change)="upapppic('image4',$event,image.image4)">
+  <button style="position: absolute;bottom: 14px;right:40px" class="btn-sm btn-success" (click)="showpic=false;upappifo();">{{'ok' | translate }}</button>
+  <button style="position: absolute;bottom: 14px;right:140px" class="btn-sm btn-danger" (click)="hidepic()">{{'cancel' | translate }}</button>
+</div>
+</div>
+<div  *ngIf="showcont" style="position: fixed;background: rgba(0, 0, 0, 0.5);top:50%;left: 50%;height:100%;width:100%;transform: translate(-50%,-50%);z-index: 100000000;">
+<div style="padding:0 80px ;background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:700px;width:800px;transform: translate(-50%,-50%);z-index: 100000000;">
+  <textarea style="resize:none" cols="70" rows="24" (change)="appinfo.description=$event.target.value">{{appinfo.description}}</textarea>
+  <button style="position: absolute;bottom: 14px;right:40px" class="btn-sm btn-success" (click)="showcont=false;upappifo();">{{'ok' | translate }}</button>
+  <button style="position: absolute;bottom: 14px;right:140px" class="btn-sm btn-danger" (click)="showcont=false;appinfo=null">{{'cancel' | translate }}</button>
+</div>
+</div>
+<div *ngIf="showtext" style="position: fixed;background: rgba(65, 63, 63, 0.7);top:50%;left: 50%;
+height:40px;width:250px;z-index: 100000000;;transform: translate(-50%,-50%);
+line-height: 40px;text-align: center;border-radius: 5px;color:rgba(233, 164, 164, 0.7)">
+{{text}}
+</div>

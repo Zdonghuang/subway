@@ -1,0 +1,35 @@
+<div [@routerTransition]>
+    <!-- <app-page-header [heading]="'服务列表'" [icon]="'fa-list'"></app-page-header> -->
+
+    <div class="row">
+        <div class="col col-sm-12">
+            <div class="card mb-6 ">
+                <div class="card-header"><i class="fa fa-fw fa-cogs"></i>&nbsp;{{ 'Service list' | translate }}</div>
+                <div class="card-body table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>{{ 'Name' | translate }}</th>
+                            <th>{{ 'State' | translate }}</th>
+                            <th style="width: 150px">{{ 'Status' | translate }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let con of containers">
+                            <td>
+                                <a [routerLink]="['/docker-detail', con.id]" [routerLinkActive]="['router-link-active']">
+                                    {{con.name}}
+                                </a>
+                            </td>
+                            <td><span [class]="stateClass(con.state)">{{con.state}}</span></td>
+                            <td>{{con.status}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="loader" *ngIf="busy"></div>
+</div>

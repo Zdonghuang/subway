@@ -1,0 +1,67 @@
+<div [@routerTransition]>
+    <div class="row">
+        <div class="col col-sm-6">
+            <div class="card mb-3">
+                <span style="padding:10px;">
+                    {{'according to'|translate}}&nbsp;&nbsp; <select style="height:30px;background:#e83e8c" class="btn-sm btn-danger" (change)="settime($event.target.value,1,$event)">
+                        <option value="date">{{'day'|translate}}</option>
+                        <option value="week" selected>{{'week'|translate}}</option>
+                        <option value="month">{{'month'|translate}}</option>
+                        <option value="quarter">{{'quarter'|translate}}</option>
+                        <option value="year">{{'year'|translate}}</option>
+                      </select>&nbsp;&nbsp;{{'display'|translate}}&nbsp;&nbsp;
+                    <input (change)="setdate($event.target.value,1)" type="text" value="{{days}}" class="form-control" style="width:60px;height:30px;display: inline-block">
+                    &nbsp;&nbsp;<span *ngIf="dates==='天'">{{'day'|translate}}</span>
+                    <span *ngIf="dates==='周'">{{'week'|translate}}</span>
+                    <span *ngIf="dates==='月'">{{'month'|translate}}</span>
+                    <span *ngIf="dates==='季'">{{'quarter'|translate}}</span>
+                    <span *ngIf="dates==='年'">{{'year'|translate}}</span>
+                </span>
+                <div class="card-header">
+                  <span *ngIf="dates==='天'">{{'day'|translate}}</span>
+                  <span *ngIf="dates==='周'">{{'week'|translate}}</span>
+                  <span *ngIf="dates==='月'">{{'month'|translate}}</span>
+                  <span *ngIf="dates==='季'">{{'quarter'|translate}}</span>
+                  <span *ngIf="dates==='年'">{{'year'|translate}}</span> {{'user growth'|translate}}
+                </div>
+                <div class="card-body">
+                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                    </canvas>
+                </div>
+                <!-- <div class="card-footer">
+                    <button class="btn btn-info btn-sm" (click)="getdatas()">Update</button>
+                </div> -->
+            </div>
+        </div>
+        <div class="col col-sm-6">
+          <div class="card mb-3">
+              <span style="float:right;padding: 10px;">
+                {{'according to'|translate}} &nbsp;&nbsp;<select style="height:30px;background:#868e96" class="btn-sm btn-dark" (change)="settime($event.target.value,2,$event)">
+                    <option value="date" selected>{{'day'|translate}}</option>
+                    <option value="week">{{'week'|translate}}</option>
+                    <option value="month">{{'month'|translate}}</option>
+                    <option value="quarter">{{'quarter'|translate}}</option>
+                    <option value="year">{{'year'|translate}}</option>
+                    </select>&nbsp;&nbsp;{{'display'|translate}}&nbsp;&nbsp;
+                    <input (change)="setdate($event.target.value,2)" type="text" value="{{day}}" class="form-control" style="width:60px;height:30px;display: inline-block">
+                    &nbsp;&nbsp;<span *ngIf="date==='天'">{{'day'|translate}}</span>
+                    <span *ngIf="date==='周'">{{'week'|translate}}</span>
+                    <span *ngIf="date==='月'">{{'month'|translate}}</span>
+                    <span *ngIf="date==='季'">{{'quarter'|translate}}</span>
+                    <span *ngIf="date==='年'">{{'year'|translate}}</span>
+              </span>
+            <div class="card-header">
+                <span *ngIf="date==='天'">{{'day'|translate}}</span>
+                <span *ngIf="date==='周'">{{'week'|translate}}</span>
+                <span *ngIf="date==='月'">{{'month'|translate}}</span>
+                <span *ngIf="date==='季'">{{'quarter'|translate}}</span>
+                <span *ngIf="date==='年'">{{'year'|translate}}</span> {{'user growth ratio'|translate}}
+            </div>
+            <div class="card-body">
+                <canvas baseChart height="150" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType">
+                </canvas>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

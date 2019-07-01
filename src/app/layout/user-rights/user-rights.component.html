@@ -1,0 +1,216 @@
+<div *ngIf="showlist">
+  <br>
+<div *ngIf="super">
+<button class="btn-sm btn-group" (click)="show = true">{{ 'add permission user' | translate }}</button>&nbsp;
+<button class="btn-sm btn-group" (click)="showrole = true">{{ 'add role' | translate }}</button>&nbsp;
+<button class="btn-sm btn-group" (click)="showqx = true">{{ 'add permission' | translate }}</button>&nbsp;
+<button class="btn-sm btn-warning" (click)="showupuser = true">{{ 'modify the role name' | translate }}</button>&nbsp;
+<button class="btn-sm btn-warning"
+  (click)="showuprole = true">{{ 'modify permission information' | translate }}</button>&nbsp;
+<button class="btn-sm btn-warning" (click)="list = true;arr =[]">{{ 'user view permission' | translate }}</button>
+</div>
+<br>
+<br>
+<div *ngIf="list"
+style="position: fixed;background: rgba(0, 0, 0, 0.7);top:0%;left: 0%;height:100%;width:100%;z-index: 100000000;">
+<div
+  style="line-height: 40px;background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:300px;width:700px;transform: translate(-50%,-50%);z-index: 100000000;">
+  <div style="width:80%;margin: 20px 0 0 30px;line-height: 36px;">
+    <span style="color:red">*</span>角色名称:
+    <select class="btn-sm btn-info" style="margin-left:40px" (change)="setrole($event)">
+      <option value="" selected>{{ 'please select' | translate }}</option>
+      <option *ngFor="let item of rolename" value="{{item.id}}">{{ item.roleName | translate }}</option>
+    </select>
+  </div>
+  <span style="color:red;margin-left: 30px;">*</span>已有导航权限 :&nbsp;<span *ngFor="let ro of arr"
+    class="{{ro?'role':''}}" (click)="removenav(ro)">{{ro}}</span>
+  <p><span style="color:red;margin-left: 30px">*</span>所有导航权限 :&nbsp;<span *ngFor="let ro of arrs"
+      class="{{ro?'role':''}}" (click)="addnav(ro)">{{ro}}</span></p>
+  <p><span style="color:red;margin-left: 30px"></span>新导航 :&nbsp;<input (change)="newNav=$event.target.value"
+      style="width:300px;display:inline-block;margin-left:60px" class="form-control input-underline input-group-sm"
+      type="text" placeholder="新导航请不要随意添加"></p>
+  <button class="btn-sm" style="position:absolute;bottom:30px;right:50px;background-color: crimson"
+    (click)="navrights()">{{'ok' | translate }}</button>
+  <button class="btn-sm" style="position:absolute;bottom:30px;right:100px;background-color: darkgreen"
+    (click)="list = false;roleid=''">{{'cancel' | translate }}</button>
+</div>
+</div>
+<div *ngIf="showrole"
+style="position: fixed;background: rgba(0, 0, 0, 0.7);top:0%;left: 0%;height:100%;width:100%;z-index: 100000000;">
+<div
+  style="line-height: 116px;background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:300px;width:500px;transform: translate(-50%,-50%);z-index: 100000000;">
+  <span style="color:red;margin-left: 30px">*</span>新角色:
+  <input class="form-control input-underline input-lg"
+    style="width:70%;height:36px;float: right;margin:40px 40px 0 0" (change)="newrole=$event.target.value"
+    type="text" placeholder="新角色名称">
+  <button class="btn-sm" style="position:absolute;bottom:50px;right:50px;background-color: crimson"
+    (click)="addnewrole()">{{'ok' | translate }}</button>
+  <button class="btn-sm" style="position:absolute;bottom:50px;right:100px;background-color: darkgreen"
+    (click)="showrole = false">{{'cancel' | translate }}</button>
+</div>
+</div>
+<div *ngIf="showupuser"
+style="position: fixed;background: rgba(0, 0, 0, 0.7);top:0%;left: 0%;height:100%;width:100%;z-index: 100000000;">
+<div
+  style="line-height: 76px;background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:300px;width:500px;transform: translate(-50%,-50%);z-index: 100000000;">
+  <div style="width:80%;margin: 20px 0 0 30px;line-height: 36px;">
+    <span style="color:red">*</span>角色名称:
+    <select value="1" class="btn-sm btn-info" style="margin-left:14px"
+      (change)="aoldrightsuser.roleid=$event.target.value">
+      <option *ngFor="let item of rolename" value="{{item.id}}">{{item.roleName}}</option>
+    </select>
+  </div>
+  <span style="color:red;margin-left: 30px">*</span>新角色名称:
+  <input class="form-control input-underline input-lg"
+    style="width:70%;height:36px;float: right;margin:20px 24px 0 0" (change)="anewrightsuser=$event.target.value"
+    type="text" placeholder="新角色名称">
+  <button class="btn-sm" style="position:absolute;bottom:50px;right:50px;background-color: crimson"
+    (click)="upnewrole()">{{'ok' | translate }}</button>
+  <button class="btn-sm" style="position:absolute;bottom:50px;right:100px;background-color: darkgreen"
+    (click)="showupuser = false">{{'cancel' | translate }}</button>
+</div>
+</div>
+<div *ngIf="showuprole"
+style="position: fixed;background: rgba(0, 0, 0, 0.7);top:0%;left: 0%;height:100%;width:100%;z-index: 100000000;">
+<div
+  style="line-height: 76px;background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:300px;width:500px;transform: translate(-50%,-50%);z-index: 100000000;">
+  <div style="width:80%;margin: 20px 0 0 30px;line-height: 36px;">
+    <span style="color:red">*</span>权限名称:
+    <select class="btn-sm btn-info" style="margin-left:14px" (change)="showcon=$event.target.value">
+      <option>{{ 'please select' | translate }}</option>
+      <option *ngFor="let item of allrole" value="{{item.id}}">{{item.per_url_detail}}</option>
+    </select>
+  </div>
+  <span style="color:red;margin-left: 30px">*</span>新权限URL:
+  <input class="form-control input-underline input-lg" style="width:70%;height:36px;display: inline-block"
+    (change)="newroleqx=$event.target.value" type="text" placeholder="权限接口URL">
+  <span style="color:red;margin-left: 30px">*</span>新权限描述:
+  <input class="form-control input-underline input-lg" style="width:70%;height:36px;display: inline-block"
+    (change)="newroletext=$event.target.value" type="text" placeholder="权限相关描述">
+  <button class="btn-sm" style="position:absolute;bottom:50px;right:50px;background-color: crimson"
+    (click)="upnewqx()">{{'ok' | translate }}</button>
+  <button class="btn-sm" style="position:absolute;bottom:50px;right:100px;background-color: darkgreen"
+    (click)="showuprole = false">{{'cancel' | translate }}</button>
+</div>
+</div>
+<div *ngIf="showqx"
+style="position: fixed;background: rgba(0, 0, 0, 0.7);top:0%;left: 0%;height:100%;width:100%;z-index: 100000000;">
+<div
+  style="line-height: 66px;background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:300px;width:500px;transform: translate(-50%,-50%);z-index: 100000000;">
+  <span style="color:red;margin-left: 30px">*</span>新权限URL:
+  <input class="form-control input-underline input-lg" style="width:70%;height:36px;display: inline-block"
+    (change)="newroleqx=$event.target.value" type="text" placeholder="权限接口URL">
+  <span style="color:red;margin-left: 30px">*</span>新权限描述:
+  <input class="form-control input-underline input-lg" style="width:70%;height:36px;display: inline-block"
+    (change)="newroletext=$event.target.value" type="text" placeholder="权限相关描述">
+  <button class="btn-sm" style="position:absolute;bottom:50px;right:50px;background-color: crimson"
+    (click)="addnewroleqx()">{{'ok' | translate }}</button>
+  <button class="btn-sm" style="position:absolute;bottom:50px;right:100px;background-color: darkgreen"
+    (click)="showqx = false">{{'cancel' | translate }}</button>
+</div>
+</div>
+<div *ngIf="show"
+style="position: fixed;background: rgba(0, 0, 0, 0.7);top:0%;left: 0%;height:100%;width:100%;z-index: 100000000;">
+<div
+  style="background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:300px;width:500px;transform: translate(-50%,-50%);z-index: 100000000;">
+  <div style="width:80%;margin: 40px auto 20px ;line-height: 36px;">
+    <span style="color:red">*</span>权限:
+    <select value="1" class="btn-sm btn-info" style="margin-left:30px"
+      (change)="newrightsuser.roleid=$event.target.value">
+      <option value="">{{ 'please select' | translate }}</option>
+      <option *ngFor="let item of rolename" value="{{item.id}}">{{item.roleName}}</option>
+    </select>
+  </div>
+  <div class="form-group" style="width:80%;margin: 14px auto ;line-height: 36px;">
+    <span style="color:red">*</span>手机号<input class="form-control input-underline input-lg"
+      style="width:80%;height:36px;float: right;" (change)="newrightsuser.mobile=$event.target.value" type="text"
+      placeholder="mobile">
+  </div>
+  <p style="color:red;margin: 30px 0 0 180px">{{tip}}</p>
+  <button class="btn-sm" style="position:absolute;bottom:50px;right:50px;background-color: crimson"
+    (click)="newuserrights()">{{'ok' | translate }}</button>
+  <button class="btn-sm" style="position:absolute;bottom:50px;right:100px;background-color: darkgreen"
+    (click)="show = false">{{'cancel' | translate }}</button>
+</div>
+</div>
+<ul class="list">
+<li (click)="setnum(cons.id)" *ngFor="let cons of rolename" style="margin-top:20px;font-size: 16px"
+  class="{{cons.id === num ? 'active' : ''}}">{{ cons.roleName | translate }}<span *ngIf="cons.id!==1 && numm === cons.id" class="close"
+    (click)="close(cons.id);$event.stopPropagation()">×</span></li>
+</ul>
+<div>
+<div>
+  <div *ngIf="super" style="margin-top:6px">
+    <span style="color:darkorange;" *ngIf="num!==1"> {{'all permissions'|translate}}：&nbsp;<span
+        (click)="toggle($event);$event.stopPropagation();showrqxs=!showrqxs" class="arrow-right"></span>&nbsp;&nbsp;</span><span
+      *ngIf="showrqxs"><span (click)="adduserrole(item.id)" style="margin-top:4px" *ngFor="let item of nouserrole"
+        class="{{item.per_url_detail?'role':''}}"><span>{{item.per_url_detail}}</span></span></span>
+  </div>
+  <br>
+  <div *ngIf="super">
+    <span style="color:cornflowerblue;"> {{'permission'|translate}}：&nbsp;<span
+        (click)="toggle($event);$event.stopPropagation();showrqx=!showrqx" class="arrow-right"></span>&nbsp;&nbsp;</span><span
+      *ngIf="showrqx"><span (click)="deluserrole(const.id)" style="margin-top:4px" *ngFor="let const of userrole"
+        class="role"><span>{{const.per_url_detail}}</span></span></span>
+  </div>
+  <br>
+  <ul style="margin-top:6px" (click)="roleindex($event)">
+    <li *ngFor="let s of roletotalPages" style="width:28px" class="{{s.stylename}}">{{s.num}}</li>
+  </ul>
+  <br>
+  <table class="table table-hover table-striped">
+    <thead>
+      <tr>
+        <th style="border-top:none;">#</th>
+        <th style="border-top:none;">{{ 'mobile' | translate }}</th>
+        <th style="border-top:none;">{{ 'fullname' | translate }}</th>
+        <th style="border-top:none;">{{ 'username' | translate }}</th>
+        <th style="border-top:none;">{{ 'email' | translate }}</th>
+        <th style="border-top:none; width:180px">{{ 'operate' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let con of textlist">
+        <td>{{con.id}}</td>
+        <td>{{con.mobile}}</td>
+        <td>{{con.fullname}}</td>
+        <td>{{con.username}}</td>
+        <td>{{con.email}}</td>
+        <td>
+          <button class="btn-sm btn-danger"
+            (click)="delrightsuser(con.id,con.roleid,con.mobile)">{{'delete' | translate }}</button>&nbsp;
+          <button class="btn-sm btn-info"
+            (click)="uprightsuser(con.id,con.mobile)">{{'modify' | translate }}</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="modifyrights"
+  style="position: fixed;background: rgba(0, 0, 0, 0.7);top:0%;left: 0%;height:100%;width:100%;z-index: 100000000;">
+  <div
+    style="background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:300px;width:500px;transform: translate(-50%,-50%);z-index: 100000000;">
+    <div style="width:80%;margin: 40px auto 20px ;line-height: 36px;">
+      <span style="color:red">*</span>权限:
+      <select class="btn-sm btn-info" style="margin-left:30px" (change)="roleid=$event.target.value">
+        <option *ngFor="let item of rolename" selected="{{item.id === num ? 'selected' : ''}}" value="{{item.id}}">
+          {{item.roleName}}</option>
+      </select>
+    </div>
+    <div class="form-group" style="width:80%;margin: 14px auto ;line-height: 36px;">
+      手机号<input disabled class="form-control input-underline input-lg" style="width:80%;height:36px;float: right;"
+        value="{{mobile}}">
+    </div>
+    <p style="color:red;margin: 30px 0 0 180px">{{tip}}</p>
+    <button class="btn-sm" style="position:absolute;bottom:50px;right:50px;background-color: crimson"
+      (click)="modify()">{{'ok' | translate }}</button>
+    <button class="btn-sm" style="position:absolute;bottom:50px;right:100px;background-color: darkgreen"
+      (click)="modifyrights = false">{{'cancel' | translate }}</button>
+  </div>
+</div>
+</div>
+<div *ngIf="showtext" style="position: fixed;background: rgba(65, 63, 63, 0.7);top:50%;left: 50%;
+height:40px;width:250px;z-index: 1000000000;;transform: translate(-50%,-50%);
+line-height: 40px;text-align: center;border-radius: 5px;color:rgba(233, 164, 164, 0.7)">
+{{text}}
+</div>

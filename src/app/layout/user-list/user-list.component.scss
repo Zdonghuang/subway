@@ -1,0 +1,94 @@
+
+table{
+  margin-top: 10px;
+  width:100%;
+  table-layout:fixed;/* 只有定义了表格的布局算法为fixed，下面td的定义才能起作用。 */
+  overflow-y: hidden;
+}
+th{
+  cursor: pointer;
+}
+td,th{
+  word-wrap:break-word;
+  word-break:break-all;
+  overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+  text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+  position: relative;
+}
+.box{
+  width:80%;
+  margin: 8px auto;
+  line-height:38px
+}
+.boxinput{
+  float:right;
+  width:82%;
+}
+.input{
+  width:80%;
+  margin: 14px auto;
+  line-height: 36px;
+}
+.inputtext{
+  width:80%;
+  height:36px;
+  float: right;
+}
+.ordertop{
+  border: 6px solid transparent;
+  border-bottom: 6px solid #000;
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  content: ' ';
+}
+.bt{
+  border-top: none;
+}
+.orderbottom{
+  border: 6px solid transparent;
+  border-top: 6px solid #000;
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 38px;
+  left: 30px;
+  content: ' ';
+}
+ul,li{
+  list-style: none;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+li{
+  height: 40px;
+  border:1px solid rgb(190, 189, 189);
+  line-height: 38px;
+  text-align: center;
+  cursor: pointer;
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  -ms-user-select: none; 
+  -khtml-user-select: none; 
+  user-select: none;
+  border-right: none;
+  width: 36px;
+}
+li:last-child{
+  border-right: 1px solid rgb(190, 189, 189);
+  border-radius: 0 4px 4px 0;
+}
+li:first-child{
+  border-radius:4px 0 0 4px;
+}
+.active{
+  background-color: rgb(49, 119, 184);
+  color: aliceblue;
+}
+.prevv{
+  background-color: rgb(223,222,222);
+}

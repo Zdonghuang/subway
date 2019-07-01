@@ -1,0 +1,69 @@
+<div>
+  <div>
+      <div class="card-header"><i class="fa fa-cloud-upload"></i>&nbsp;{{ 'Device list' | translate }}</div>
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th>{{ 'id' | translate }}</th>
+          <th>{{ 'username' | translate }}</th>
+          <th>model</th>
+          <th>uuid</th>
+          <th style="width: 100px;">{{ 'operate' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let con of deviceList">
+          <td class="cursor" (click)="deviceInfo=true; adevice=con.uuid;getadevice()">{{con.id}}</td>
+          <td>{{con.userName}}</td>
+          <td>{{con.model}}</td>
+          <td>{{con.uuid}}</td>
+          <td><button class="btn-sm btn-danger" (click)="del(con.uuid,con.model)">{{ 'delete' | translate }}</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="deviceInfo" class="bigbox">
+    <div class="ltbox">
+      <button class="btn-sm btn-success" (click)="deviceInfo=false">{{ 'ok' | translate }}</button>
+      <button class="btn-sm btn-danger" (click)="deviceInfo=false">{{ 'cancel' | translate }}</button>
+      <h4>device info</h4>
+      <div style="line-height:44px">
+        {{ 'id' | translate }}:
+        <input disabled value="{{adevice.id}}" style="width:70%;float:right;margin-top:6px" class="form-control">
+      </div>
+      <div style="line-height:44px">
+        {{ 'username' | translate }}:
+        <input disabled value="{{adevice.userName}}" style="width:70%;float:right;margin-top:6px" class="form-control">
+      </div>
+      <div style="line-height:44px">
+        {{ 'uuid' | translate }}:
+        <input disabled value="{{adevice.uuid}}" style="width:70%;float:right;margin-top:6px" class="form-control">
+      </div>
+      <div style="line-height:44px">
+        {{ 'model' | translate }}:
+        <input disabled value="{{adevice.model}}" style="width:70%;float:right;margin-top:6px" class="form-control">
+      </div>
+      <div style="line-height:44px">
+        {{ 'agentInfo' | translate }}:
+        <input disabled value="{{adevice.model}}" style="width:70%;float:right;margin-top:6px" class="form-control">
+      </div>
+      <div style="line-height:44px">
+        {{ 'status' | translate }}:
+        <input disabled value="{{adevice.status}}" style="width:70%;float:right;margin-top:6px" class="form-control">
+      </div>
+      <div style="line-height:44px">
+        {{ 'updateTime' | translate }}:
+        <input disabled value="{{adevice.updateTime}}" style="width:70%;float:right;margin-top:6px" class="form-control">
+      </div>
+      <div style="line-height:44px">
+        {{ 'createTime' | translate }}:
+        <input disabled value="{{adevice.createTime}}" style="width:70%;float:right;margin-top:6px" class="form-control">
+      </div>
+      <div style="line-height:44px">
+        {{ 'secret' | translate }}:
+        <input disabled value="{{adevice.secret}}" style="width:70%;float:right;margin-top:6px" class="form-control">
+      </div>
+    </div>
+  </div>
+</div>
+

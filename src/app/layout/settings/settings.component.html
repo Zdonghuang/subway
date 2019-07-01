@@ -1,0 +1,30 @@
+<div [@routerTransition]>
+    <!-- <app-page-header [heading]="'Settings'" [icon]="'fa-edit'"></app-page-header> -->
+
+    <div class="row">
+        <div class="col-lg-6">
+            域名： <select class="btn-sm btn-success" (change)="setdomain($event.target.value)">
+                <option *ngFor="let con of domain" value="{{con.domainFullName}}" selected="{{con.id === 1?'selected':''}}">{{con.domainFullName}}</option>
+              </select>
+            <form role="form">
+                <fieldset class="form-group">
+                    <label>{{ 'iLeapCloud API base URL' | translate }}</label>
+                    <input class="form-control" [formControl]="apiBaseUrl">
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label>{{ 'Docker remote API URL' | translate }}</label>
+                    <input class="form-control" [formControl]="dockerRemoteApiUrl">
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label>{{ 'Service names' | translate }}</label>
+                    <textarea class="form-control" rows="18" [formControl]="leapServicesJson"></textarea>
+                </fieldset>
+
+                <button class="btn-sm btn-warning" (click)="onApply()">{{ 'Apply' | translate }}</button>
+            </form>
+        </div>
+    </div>
+
+</div>

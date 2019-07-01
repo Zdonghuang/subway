@@ -1,0 +1,104 @@
+<div [@routerTransition]>
+    <!-- <app-page-header [heading]="'容器列表'" [icon]="'fa-list'"></app-page-header> -->
+    <div class="loader" *ngIf="busy"></div>
+    <div class="row">
+        <div class="col col-sm-12">
+            <div class="card mb-12">
+                <div class="card-header">
+                    <i class="fa fa-fw fa-cube"></i>&nbsp;
+                    <b>{{container.name + ' (' + container.id + ')'}}</b>
+                </div>
+                <div class="card-body table-responsive">
+                    <button type="button" class="btn-sm btn-danger" (click)="Kill()">{{ 'Kill' | translate }}</button>
+                    <button type="button" class="btn-sm btn-warning" (click)="Stop()">{{ 'Stop' | translate }}</button>
+                    <button type="button" class="btn-sm btn-success" (click)="Start()">{{ 'Start' | translate }}</button>
+                    <button type="button" class="btn-sm btn-info" (click)="Restart()">{{ 'Restart' | translate }}</button>
+                    <div *ngIf="processing" style="display:inline-block;margin-left:20px;width:240px"><ngb-progressbar [type]="processType" [value]="100" [striped]="true" [animated]="true"><i>{{ processMessage | translate }}</i></ngb-progressbar></div>
+                </div>
+
+                <ng-template #content let-c="close" let-d="dismiss">
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{ 'Warning' | translate }}</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="d('Cross-clicked')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ alertMessage | translate }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-sm btn-outline-secondary" (click)="d('Cancel')">{{ 'Cancel' | translate }}</button>
+                        <button type="button" [class]="confirmButtonClass" (click)="d('OK')">{{ 'OK' | translate }}</button>
+                    </div>
+                </ng-template>
+            </div>
+
+            <div class="card mb-12">
+                <div class="card-header"><b>{{ 'Created' | translate }}</b></div>
+                <div class="card-body table-responsive">
+                    {{container.created}}
+                </div>
+            </div>
+            <div class="card mb-12">
+                <div class="card-header"><b>{{ 'State' | translate }}</b></div>
+                <div class="card-body table-responsive">
+                    {{container.state}}
+                </div>
+            </div>
+            <div class="card mb-12">
+                <div class="card-header"><b>{{ 'Mounts' | translate }}</b></div>
+                <div class="card-body table-responsive">
+                    {{container.mounts}}
+                </div>
+            </div>
+            <div class="card mb-12">
+                <div class="card-header"><b>{{ 'Environment' | translate }}</b></div>
+                <div class="card-body table-responsive">
+                    <p *ngFor="let env of container.environment">
+                        {{env}}
+                    </p>
+                </div>
+            </div>
+            <div class="card mb-12">
+                <div class="card-header"><b>{{ 'Command' | translate }}</b></div>
+                <div class="card-body table-responsive">
+                    {{container.command}}
+                </div>
+            </div>
+            <div class="card mb-12">
+                <div class="card-header"><b>{{ 'Working directory' | translate }}</b></div>
+                <div class="card-body table-responsive">
+                    {{container.workingDirectory}}
+                </div>
+            </div>
+            <div class="card mb-12">
+                <div class="card-header"><b>{{ 'IP address' | translate }}</b></div>
+                <div class="card-body table-responsive">
+                    {{container.ip}}
+                </div>
+            </div>
+            <div class="card mb-12">
+                <div class="card-header"><b>{{ 'Ports' | translate }}</b></div>
+                <div class="card-body table-responsive">
+                    {{container.ports}}
+                </div>
+            </div>
+            <div class="card mb-12">
+                <div class="card-header">
+                    <button type="button" class="btn-sm btn-primary" (click)="GetStdout()">{{ 'Get stdout log' | translate }}</button>
+                </div>
+                <div class="card-body table-responsive">
+                    {{stdout}}
+                </div>
+            </div>
+            <div class="card mb-12">
+                <div class="card-header">
+                    <button type="button" class="btn-sm btn-warning" (click)="GetStderr()">{{ 'Get stderr log' | translate }}</button>
+                </div>
+                <div class="card-body table-responsive">
+                    {{stderr}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="login-page" [@routerTransition]>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <img src="assets/images/logo.png" width="150px" class="user-avatar" />
+            <h1>{{domain}} {{internet}}</h1>
+            <form role="form">
+                <div class="form-content">
+                  <div style="color:red">{{tips}}</div>
+                  <div class="loader" *ngIf="busy"></div>
+                    <div class="form-group">
+                        <input type="text" (keyup.enter)="onLoggedin()" ng-model="logindatas.username" (change)="onUsername($event)" class="form-control input-underline input-lg" placeholder="username">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" (keyup.enter)="onLoggedin()" ng-model="logindatas.password" (change)="onPassword($event)" class="form-control input-underline input-lg" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                      <input type="text" (keyup.enter)="onLoggedin()" ng-model="logindatas.vcode" (change)="onVcode($event)" class="form-control input-underline input-lg" placeholder="vcode">
+                  </div>
+                  <img src="{{src}}" width="100px" style="float:left">
+                  <a href="javascript:" (click)="changePic()" style="float:right">看不清，换一张</a>
+                </div>
+                <a class="btn rounded-btn" (click)="onLoggedin()"> Log in </a>
+                <!-- &nbsp;
+                <a class="btn rounded-btn" [routerLink]="['/signup']">Register</a> -->
+            </form>
+        </div>
+    </div>
+</div>

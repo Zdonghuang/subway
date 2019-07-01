@@ -1,0 +1,49 @@
+<div [@routerTransition]>
+    <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">{{ popupHeader }}</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Close')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <textarea disabled cols="36" style="resize:none;" rows="5">{{ popupBody }}</textarea>
+        </div>
+        <div class="modal-footer">
+            <button *ngIf="!showClose" type="button" class="btn-sm btn-outline-secondary" (click)="d('Cancel')">{{ 'Cancel' | translate }}</button>
+            <button *ngIf="!showClose" type="button" [class]="confirmButtonClass" (click)="d('OK')">{{ 'OK' | translate }}</button>
+            <button *ngIf="showClose" type="button" class="btn-sm btn-primary" (click)="d('Close')">{{ 'Close' | translate }}</button>
+        </div>
+    </ng-template>
+
+  <div class="row">
+      <div class="col col-sm-12">
+          <div class="card mb-12">
+              <div class="card-header"><i class="fa fa-fw fa-certificate"></i>&nbsp;{{ 'Certificates list' | translate }}</div>
+              <div class="card-body table-responsive">
+                  <table class="table table-hover table-striped">
+                      <thead>
+                      <tr>
+                          <th>{{ 'Name' | translate }}</th>
+                          <th>{{ 'Filename' | translate }}</th>
+                          <th style="width: 180px;">{{ 'Action' | translate }}</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                            <tr *ngFor="let cert of certs">
+                                <td style="cursor:pointer;color:blue" (click)="showDetail(cert)">{{cert.name}}</td>
+                                <td>{{cert.filename}}</td>
+                                <td>
+                                    <button class="btn-sm btn-primary" (click)="showDetail(cert)">{{ 'Detail' | translate }}</button>
+                                    <button class="btn-sm btn-danger ml-2" (click)="delete(cert)">{{ 'Delete' | translate }}</button>
+                                </td>
+                            </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="loader" *ngIf="busy"></div>
+</div>

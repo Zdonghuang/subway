@@ -1,0 +1,156 @@
+<div style="line-height:50px;margin-top: 10px"><button (click)="api = !api" class="btn-sm btn-info">{{'add api'|translate}}</button>&nbsp;&nbsp;&nbsp;
+  {{'upload picture'|translate}} :&nbsp;&nbsp;&nbsp;&nbsp;<input type="file" (change)="logoimage($event,'23')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg">{{none}}</div>
+<br>
+<div>
+  <ul class="list">
+    <li class="active" (click)="setactive('index',$event)">{{'devcenter'|translate}}</li>
+    <li (click)="setactive('emails',$event)">{{'mailbox'|translate}}</li>
+    <li (click)="setactive('markdown',$event)">{{'guide'|translate}}</li>
+    <li (click)="setactive('register',$event)">{{'registered'|translate}}</li>
+    <li (click)="setactive('Coopertion',$event)">{{'Cooperation'|translate}}</li>
+    <li (click)="setactive('Carousel',$event)">{{'platform'|translate}}</li>
+    <li (click)="setactive('internetPlatform',$event)">{{'industry'|translate}}</li>
+    <li (click)="setactive('intelligentHardware',$event)">{{'hardware'|translate}}</li>
+  </ul>
+  <div style="padding:20px" *ngIf="index">
+  <div style="line-height:50px"><span style="display: inline-block;width: 96px;text-align: right">{{'home logo'|translate}}</span>: &nbsp;<img src="{{content.logo}}" height="40px" style="background: #000"> <input type="file" (change)="logoimage($event,'1')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:50px">
+      <span style="display: inline-block;width: 96px;text-align: right">{{'control logo'|translate}}</span>: &nbsp;<img src="{{content.clogo}}" height="40px" style="background: #000">
+      <input type="file" (change)="logoimage($event,'2')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg">
+      </div>
+    <div style="line-height:50px">
+      <span style="display: inline-block;width: 96px;text-align: right">{{'wechat code'|translate}}</span>: &nbsp;<img src="{{content.wxm}}" height="40px" style="background: #000">
+      <input type="file" (change)="logoimage($event,'3')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg">
+    </div>
+    <div style="line-height:50px">
+      <span style="display: inline-block;width: 96px;text-align: right">{{'wechat group'|translate}}</span>: &nbsp;<img src="{{content.wxq}}" height="40px" style="background: #000">
+      <input type="file" (change)="logoimage($event,'4')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px"><span style="display: inline-block;width: 96px;text-align: right">{{'forum link'|translate}}</span>: &nbsp;<input (change)="content.lt=$event.target.value" value="{{content.lt}}" style="width:60%;margin-top:6px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px"><span style="display: inline-block;width: 96px;text-align: right">{{'trial link'|translate}}</span>: &nbsp;<input (change)="content.sy=$event.target.value" value="{{content.sy}}" style="width:60%;margin-top:6px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px"><span style="display: inline-block;width: 96px;text-align: right">swagger</span>: &nbsp;<input (change)="content.swagger=$event.target.value" value="{{content.swagger}}" style="width:60%;margin-top:6px;display:inline-block;" class="form-control input-underline input-lg">
+    </div>
+    <p style="margin-left:15%;"><span style="display: inline-block;width: 96px;text-align: right"></span>{{'The following are all separated by a vertical bar (|)'|translate}}</p>
+    <div style="line-height:54px;"><span style="display: inline-block;width: 96px;text-align: right">{{'home nav'|translate}}</span>: &nbsp;<textarea (change)="content.nav=$event.target.value.split('|')" value="{{content.nav[0]}}|{{content.nav[1]}}|{{content.nav[2]}}|{{content.nav[3]}}|{{content.nav[4]}}|{{content.nav[5]}}|{{content.nav[6]}}|{{content.nav[7]}}|{{content.nav[8]}}|{{content.nav[9]}}|{{content.nav[10]}}|{{content.nav[11]}}|{{content.nav[12]}}|{{content.nav[13]}}|{{content.nav[14]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:54px;"><span style="display: inline-block;width: 96px;text-align: right">{{'home title'|translate}}</span>: &nbsp;<textarea (change)="content.title=$event.target.value.split('|')" value="{{content.title[0]}}|{{content.title[1]}}|{{content.title[2]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:54px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'content1'|translate}}</span>: &nbsp;<textarea (change)="content.conone=$event.target.value.split('|')" value="{{content.conone[0]}}|{{content.conone[1]}}|{{content.conone[2]}}|{{content.conone[3]}}|{{content.conone[4]}}|{{content.conone[5]}}|{{content.conone[6]}}|{{content.conone[7]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'picture'|translate}}</span>: &nbsp;<img src="{{content.oneimgs}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'15')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'background'|translate}}</span>: &nbsp;<img src="{{content.onebgimgs}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'18')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'content2'|translate}}</span>: &nbsp;<textarea (change)="content.contwo=$event.target.value.split('|')" value="{{content.contwo[0]}}|{{content.contwo[1]}}|{{content.contwo[2]}}|{{content.contwo[3]}}|{{content.contwo[4]}}|{{content.contwo[5]}}|{{content.contwo[6]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'picture'|translate}}</span>: &nbsp;<img src="{{content.twoimgs}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'16')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'background'|translate}}</span>: &nbsp;<img src="{{content.twobgimgs}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'19')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'content3'|translate}}</span>: &nbsp;<textarea (change)="content.conthree=$event.target.value.split('|')" value="{{content.conthree[0]}}|{{content.conthree[1]}}|{{content.conthree[2]}}|{{content.conthree[3]}}|{{content.conthree[4]}}|{{content.conthree[5]}}|{{content.conthree[6]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'picture'|translate}}</span>: &nbsp;<img src="{{content.threeimgs}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'17')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'background'|translate}}</span>: &nbsp;<img src="{{content.threebgimgs}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'20')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'content4'|translate}}</span>: &nbsp;<textarea (change)="content.confour=$event.target.value.split('|')" value="{{content.confour[0]}}|{{content.confour[1]}}|{{content.confour[2]}}|{{content.confour[3]}}|{{content.confour[4]}}|{{content.confour[5]}}|{{content.confour[6]}}|{{content.confour[7]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'picture'|translate}}</span>: &nbsp;<img src="{{content.oneimg}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'5')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'background'|translate}}</span>: &nbsp;<img src="{{content.onebgimg}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'21')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'content5'|translate}}</span>: &nbsp;<textarea (change)="content.confive=$event.target.value.split('|')" value="{{content.confive[0]}}|{{content.confive[1]}}|{{content.confive[2]}}|{{content.confive[3]}}|{{content.confive[4]}}|{{content.confive[5]}}|{{content.confive[6]}}|{{content.confive[7]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'picture'|translate}}</span>: &nbsp;<img src="{{content.twoimg}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'6')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'background'|translate}}</span>: &nbsp;<img src="{{content.twobgimg}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'22')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'content6'|translate}}</span>: &nbsp;<textarea (change)="content.consix=$event.target.value.split('|')" value="{{content.consix[0]}}|{{content.consix[1]}}|{{content.consix[2]}}|{{content.consix[3]}}|{{content.consix[4]}}|{{content.consix[5]}}|{{content.consix[6]}}|{{content.consix[7]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'picture'|translate}}</span>: &nbsp;<img src="{{content.threeimg}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'7')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'content7'|translate}}</span>: &nbsp;<textarea (change)="content.conseven=$event.target.value.split('|')" value="{{content.conseven[0]}}|{{content.conseven[1]}}|{{content.conseven[2]}}|{{content.conseven[3]}}|{{content.conseven[4]}}|{{content.conseven[5]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'picture'|translate}}</span>: &nbsp;<img src="{{content.fourimg}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'8')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'content8'|translate}}</span>: &nbsp;<textarea (change)="content.coneight=$event.target.value.split('|')" value="{{content.coneight[0]}}|{{content.coneight[1]}}|{{content.coneight[2]}}|{{content.coneight[3]}}|{{content.coneight[4]}}|{{content.coneight[5]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'picture'|translate}}</span>: &nbsp;<img src="{{content.fiveimg}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'9')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'content9'|translate}}</span>: &nbsp;<textarea (change)="content.consone=$event.target.value.split('|')" value="{{content.consone[0]}}|{{content.consone[1]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'picture'|translate}}</span>: &nbsp;<img src="{{content.siximg}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'10')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'content10'|translate}}</span>: &nbsp;<textarea (change)="content.constwo=$event.target.value.split('|')" value="{{content.constwo[0]}}|{{content.constwo[1]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'picture'|translate}}</span>: &nbsp;<img src="{{content.sevenimg}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'11')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'content11'|translate}}</span>: &nbsp;<textarea (change)="content.consthree=$event.target.value.split('|')" value="{{content.consthree[0]}}|{{content.consthree[1]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'picture'|translate}}</span>: &nbsp;<img src="{{content.eightimg}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'12')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'content12'|translate}}</span>: &nbsp;<textarea (change)="content.consfour=$event.target.value.split('|')" value="{{content.consfour[0]}}|{{content.consfour[1]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'picture'|translate}}</span>: &nbsp;<img src="{{content.nineimg}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'13')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'content13'|translate}}</span>: &nbsp;<textarea (change)="content.consfive=$event.target.value.split('|')" value="{{content.consfive[0]}}|{{content.consfive[1]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:50px;margin-top: 10px"><span style="display: inline-block;width: 96px;text-align: right">{{'picture'|translate}}</span>: &nbsp;<img src="{{content.tenimg}}" height="40px" style="margin-left:0px;background: #000"> <input type="file" (change)="logoimage($event,'14')" style="width:230px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:54px"><span style="display: inline-block;width: 96px;text-align: right">{{'information'|translate}}</span>: &nbsp;<textarea (change)="content.hz=$event.target.value.split('|')" value="{{content.hz[0]}}|{{content.hz[1]}}|{{content.hz[2]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:54px"><span style="display: inline-block;width: 96px;text-align: right">{{'Support'|translate}}</span>: &nbsp;<textarea (change)="content.js=$event.target.value.split('|')" value="{{content.js[0]}}|{{content.js[1]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <div style="line-height:54px"><span style="display: inline-block;width: 96px;text-align: right">{{'footer'|translate}}</span>: &nbsp;<textarea (change)="content.db=$event.target.value.split('|')" value="{{content.db[0]}}|{{content.db[1]}}|{{content.db[2]}}|{{content.db[3]}}" style="vertical-align: top;width:60%;margin-top:6px;display:inline-block;"></textarea></div>
+    <button class="btn-sm btn-success" style="margin-top:10px;" (click)="upcontent('index')">{{'modify' | translate }}</button>
+  </div>
+  <div style="padding:20px" *ngIf="emails">
+    <div style="line-height:44px">发送者昵称：&nbsp;&nbsp;&nbsp;&nbsp; <input (change)="email.explain=$event.target.value" value="{{email.explain}}" style="width:40%;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:44px">邮件主题：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input (change)="email.subject=$event.target.value" value="{{email.subject}}" style="width:40%;margin-top:6px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:44px;">邮件内容图片： <img style="background:#000" src="{{email.image}}" width="300px"><input class="form-control input-underline input-lg" (change)="emailImage($event)" type="file" style="width:230px;margin-top:6px;margin-right:6px;display:inline-block;"></div>
+    <div style="margin-top:16px;vertical-align: top">邮件html模板：<br> <textarea style="vertical-align: top;margin-top:10px;" (change)="email.html=$event.target.value" cols="60" rows="12">{{email.html}}</textarea> </div>
+    <button class="btn-sm btn-success" style="margin-top:10px;" (click)="updateEmail()">{{'modify' | translate }}</button>
+    <hr>
+    <div style="line-height:44px">发送者昵称：&nbsp;&nbsp;&nbsp;&nbsp; <input (change)="emailadmin['1'].explain=$event.target.value" value="{{emailadmin['1'].explain}}" style="width:40%;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:44px">邮件主题：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input (change)="emailadmin['1'].subject=$event.target.value" value="{{emailadmin['1'].subject}}" style="width:40%;margin-top:6px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="margin-top:16px;vertical-align: top">邮件html模板：<br> <textarea style="vertical-align: top;margin-top:10px;" (change)="emailadmin['1'].html=$event.target.value" cols="60" rows="12">{{emailadmin['1'].html}}</textarea> </div>
+    <button class="btn-sm btn-success" style="margin-top:10px;" (click)="upcontent('emailadmin')">{{'modify' | translate }}</button>
+    <hr>
+    <div style="line-height:44px">发送者昵称：&nbsp;&nbsp;&nbsp;&nbsp; <input (change)="emailadmin['2'].explain=$event.target.value" value="{{emailadmin['2'].explain}}" style="width:40%;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:44px">邮件主题：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input (change)="emailadmin['2'].subject=$event.target.value" value="{{emailadmin['2'].subject}}" style="width:40%;margin-top:6px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="margin-top:16px;vertical-align: top">邮件html模板：<br> <textarea style="vertical-align: top;margin-top:10px;" (change)="emailadmin['2'].html=$event.target.value" cols="60" rows="12">{{emailadmin['2'].html}}</textarea> </div>
+    <button class="btn-sm btn-success" style="margin-top:10px;" (click)="upcontent('emailadmin')">{{'modify' | translate }}</button>
+    <hr>
+    <div style="line-height:44px">发送者昵称：&nbsp;&nbsp;&nbsp;&nbsp; <input (change)="emailadmin['3'].explain=$event.target.value" value="{{emailadmin['3'].explain}}" style="width:40%;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:44px">邮件主题：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input (change)="emailadmin['3'].subject=$event.target.value" value="{{emailadmin['3'].subject}}" style="width:40%;margin-top:6px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="margin-top:16px;vertical-align: top">邮件html模板：<br> <textarea style="vertical-align: top;margin-top:10px;" (change)="emailadmin['3'].html=$event.target.value" cols="60" rows="12">{{emailadmin['3'].html}}</textarea> </div>
+    <button class="btn-sm btn-success" style="margin-top:10px;" (click)="upcontent('emailadmin')">{{'modify' | translate }}</button>
+    <div style="line-height:44px">发送者昵称：&nbsp;&nbsp;&nbsp;&nbsp; <input (change)="emailadmin['4'].explain=$event.target.value" value="{{emailadmin['4'].explain}}" style="width:40%;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:44px">邮件主题：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input (change)="emailadmin['4'].subject=$event.target.value" value="{{emailadmin['4'].subject}}" style="width:40%;margin-top:6px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="margin-top:16px;vertical-align: top">邮件html模板：<br> <textarea style="vertical-align: top;margin-top:10px;" (change)="emailadmin['4'].html=$event.target.value" cols="60" rows="12">{{emailadmin['4'].html}}</textarea> </div>
+    <button class="btn-sm btn-success" style="margin-top:10px;" (click)="upcontent('emailadmin')">{{'modify' | translate }}</button>
+    <hr>
+    <h4>接收app审核的邮箱</h4>
+    <input type="text" value="{{useremail}}" (change)="useremail=$event.target.value" style="width:500px"><br>
+    <button class="btn-sm btn-success" style="margin-top:10px;" (click)="upcontent('useremail')">{{'modify' | translate }}</button>
+  </div>
+  <div style="padding:20px" *ngIf="markdown">
+    <textarea (change)="marktext = $event.target.value" ng-model="my.model" style="width:100%" rows="20">
+      {{this.marktext}}
+      </textarea>
+      <button class="btn-sm btn-success" style="margin-top:10px;" (click)="upcontent('markdown')">{{'modify' | translate }}</button>
+  </div>
+  <div style="padding:20px" *ngIf="register">
+    <textarea (change)="registertext = $event.target.value" style="width:100%" rows="20">
+      {{this.registertext}}
+      </textarea>
+      <button class="btn-sm btn-success" style="margin-top:10px;" (click)="upcontent('register')">{{'modify' | translate }}</button>
+  </div>
+  <div style="padding:20px" *ngIf="Coopertion">
+    <textarea (change)="Coopertiontext = $event.target.value" style="width:100%" rows="20">
+      {{this.Coopertiontext}}
+      </textarea>
+      <button class="btn-sm btn-success" style="margin-top:10px;" (click)="upcontent('Coopertion')">{{'modify' | translate }}</button>
+  </div>
+  <div style="padding:20px" *ngIf="Carousel">
+    <div style="line-height:44px">轮播文字内容：&nbsp; <input (change)="Carouseltext.text =$event.target.value" value="{{Carouseltext.text}}" style="width:40%;margin-top:6px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <div style="line-height:44px">轮播按钮内容：&nbsp; <input (change)="Carouseltext.btntext =$event.target.value" value="{{Carouseltext.btntext}}" style="width:40%;margin-top:6px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <br>页面内容:<textarea (change)="Carouseltext.content = $event.target.value" style="width:100%" rows="20">
+      {{this.Carouseltext.content}}
+      </textarea>
+      <button class="btn-sm btn-success" style="margin-top:10px;" (click)="upcontent('Carousel')">{{'modify' | translate }}</button>
+  </div>
+  <div style="padding:20px" *ngIf="internetPlatform">
+    <div style="line-height:44px">标题文字：&nbsp; <input (change)="internetPlatformtext.pt =$event.target.value" value="{{this.internetPlatformtext.pt}}" style="width:40%;margin-top:6px;display:inline-block;" class="form-control input-underline input-lg"></div>
+  <br>页面内容:<textarea (change)="internetPlatformtext.content = $event.target.value" style="width:100%" rows="20">
+    {{this.internetPlatformtext.content}}
+    </textarea>
+    <button class="btn-sm btn-success" style="margin-top:10px;" (click)="upcontent('internetPlatform')">{{'modify' | translate }}</button>
+</div>
+  <div style="padding:20px" *ngIf="intelligentHardware">
+      <div style="line-height:44px">标题文字：&nbsp; <input (change)="intelligentHardwaretext.pt =$event.target.value" value="{{this.intelligentHardwaretext.pt}}" style="width:40%;margin-top:6px;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <br>页面内容:<textarea (change)="intelligentHardwaretext.content = $event.target.value" style="width:100%" rows="20">
+      {{this.intelligentHardwaretext.content}}
+      </textarea>
+      <button class="btn-sm btn-success" style="margin-top:10px;" (click)="upcontent('intelligentHardware')">{{'modify' | translate }}</button>
+  </div>
+</div>
+<div *ngIf="api" style="position: fixed;background: rgba(65, 63, 63, 0.7);top:50%;left: 50%;
+height:100%;width:100%;z-index: 100000000;transform: translate(-50%,-50%);
+line-height: 40px;text-align: center;border-radius: 5px;">
+  <div style="position: fixed;background: #fff;top:50%;left: 50%;
+  height:200px;width:500px;z-index: 100000000;transform: translate(-50%,-50%);" >
+    <div style="line-height:44px;margin-top: 14px">api名称:&nbsp;&nbsp;&nbsp;&nbsp; <input (change)="anapi=$event.target.value" style="width:80%;display:inline-block;" class="form-control input-underline input-lg"></div>
+    <button class="btn-sm btn-danger" style="position: absolute;bottom:10px;right:100px" (click)="api = false">{{'cancel' | translate }}</button>
+    <button class="btn-sm btn-success" style="position: absolute;bottom:10px;right:20px" (click)="addapi()">添加</button>
+  </div>
+</div>
+<div *ngIf="showtext" style="position: fixed;background: rgba(65, 63, 63, 0.7);top:50%;left: 50%;
+height:40px;width:250px;z-index: 100000000;;transform: translate(-50%,-50%);
+line-height: 40px;text-align: center;border-radius: 5px;color:rgba(233, 164, 164, 0.7)">
+  {{text}}
+</div>

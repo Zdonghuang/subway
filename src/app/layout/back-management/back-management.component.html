@@ -1,0 +1,413 @@
+<div *ngIf="showlist">
+  <br>
+  <ul class="list">
+    <li id="list" class="active"  (click)="setactive($event,'log')">{{'log'|translate}}</li>
+    <li id="list" (click)="setactive($event,'route')">{{'routing'|translate}}</li>
+    <li id="list" (click)="setactive($event,'sensitive')">{{'sensitive'|translate}}</li>
+    <li id="list" (click)="setactive($event,'whitelist')">{{'whitelist'|translate}}</li>
+    <li id="list" (click)="setactive($event,'api')">{{'billing api'|translate}}</li>
+    <li id="list" (click)="setactive($event,'vapi')">{{'third party api'|translate}}</li>
+    <li id="list" (click)="setactive($event,'vapiconfig')">API Key</li>
+    <li id="list" (click)="setactive($event,'publics')">{{'publics'|translate}}</li>
+  </ul>
+  <div *ngIf="log">
+    <div>
+        <input (change)="userinfo=$event.target.value" placeholder="{{'id/username/mobile'|translate}}" type="text" class="form-control" style="display:inline-block;width:200px;height:30px">
+        &nbsp;<button class="btn-sm btn-info" (click)="getloglist()">{{'Search' | translate }}</button>
+    </div>
+    <br>
+    <ul class="page" (click)="logindex($event)">
+      <li class="prev prevv">«</li>
+      <li *ngFor="let s of totalList" style="width:28px" class="{{s.stylename}}">{{s.num}}</li>
+      <li class="next">»</li>
+    </ul>&nbsp;
+    {{ 'Every page show' | translate }}：<select style="padding:4px;" (change)="setpagesize($event.target.value)">
+      <option value="10">{{'ten' | translate }}</option>
+      <option value="20">{{'twenty' | translate }}</option>
+      <option value="50">{{'fifty' | translate }}</option>
+      <option value="100">{{'hundred' | translate }}</option>
+    </select>&nbsp;
+    {{'Jump to' | translate }}<input type="text" (change)="setpage($event.target.value)" class="form-control" style="display:inline-block;width:70px;height:30px">{{'page'|translate}}({{nums}}{{'pages in total'|translate}})
+    <br>
+    <br>
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th style="cursor:pointer;position: relative; border-top: none;" (click)="setorder('id')">#<span class="{{calssn}}" (click)="setorderby();$event.stopPropagation()"></span></th>
+          <th style="cursor:pointer;border-top: none;" (click)="setorder('username')">{{ 'username' | translate }}</th>
+          <th style="cursor:pointer;border-top: none;" (click)="setorder('createTime')">{{ 'time' | translate }}</th>
+          <th style="cursor:pointer;border-top: none;" (click)="setorder('apiName')">{{ 'apiname' | translate }}</th>
+          <th style="cursor:pointer;border-top: none;" (click)="setorder('ipCountry')">{{ 'ipCountry' | translate }}</th>
+          <th style="border-top: none;width: 100px;">{{ 'operate' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let con of loglist">
+          <td style="cursor:pointer" (click)="showinfo = true;loginfo=con">{{con.id}}</td>
+          <td>{{con.username}}</td>
+          <td>{{con.createTimeStr}}</td>
+          <td>{{con.apiName}}</td>
+          <td>{{con.ipCountry}}</td>
+          <td><button class="btn-sm btn-danger" (click)="dellog(con.id)">{{'delete' | translate }}</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div  *ngIf="showinfo" style="position: fixed;background: rgba(0, 0, 0, 0.5);top:50%;left: 50%;height:100%;width:100%;transform: translate(-50%,-50%);z-index: 100000000;">
+      <div style="padding:0 80px ;background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:600px;width:700px;transform: translate(-50%,-50%);z-index: 100000000;">
+        <h4 style="text-align:center;">详细信息</h4>
+        <div style="line-height:44px">{{ 'id' | translate }}:<input  value="{{loginfo.id}}" disabled style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+        <div style="line-height:44px">{{ 'userId' | translate }}:<input  value="{{loginfo.userId}}" disabled style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+        <div style="line-height:44px">{{ 'username' | translate }}:<input  value="{{loginfo.username}}" disabled style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+        <div style="line-height:44px">{{ 'mobile' | translate }}:<input  value="{{loginfo.mobile}}" disabled style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+        <div style="line-height:44px">{{ 'ipArea' | translate }}:<input  value="{{loginfo.ipArea}}" disabled style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+        <div style="line-height:44px">{{ 'ipCountry' | translate }}:<input  value="{{loginfo.ipCountry}}" disabled style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+        <div style="line-height:44px">{{ 'requestURI' | translate }}:<input  value="{{loginfo.requestURI}}" disabled style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+        <div style="line-height:44px">{{ 'ipCpayLoadountry' | translate }}:<input  value="{{loginfo.payLoad}}" disabled style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+        <div style="line-height:44px">{{ 'ip' | translate }}:<input  value="{{loginfo.ip}}" disabled style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+        <div style="line-height:44px">{{ 'createTime' | translate }}:<input  value="{{loginfo.createTime}}" disabled style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+        <div style="line-height:44px">{{ 'apiname' | translate }}:<input  value="{{loginfo.apiName}}" disabled style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+        <button style="position: absolute;bottom: 14px;right:80px" class="btn-sm btn-success" (click)="showinfo=false">{{'ok' | translate }}</button>
+      </div>
+  </div>
+  <div *ngIf="route">
+    <button class="btn-sm btn-warning" (click)="showmoudle()">添加路由</button>
+    <br>
+  <br>
+      <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th style="cursor:pointer;position: relative;width:70px;border-top: none;" (click)="setorders('pid')">#<span class="{{calssns}}" (click)="setorderbys();$event.stopPropagation()"></span></th>
+              <th style="cursor:pointer;border-top: none;" (click)="setorders('name')">{{ 'name' | translate }}</th>
+              <th style="cursor:pointer;border-top: none;" (click)="setorders('serviceId')">{{ 'serviceId' | translate }}</th>
+              <th style="cursor:pointer;border-top: none;" (click)="setorders('path')">{{ 'path' | translate }}</th>
+              <th style="border-top: none;">{{ 'enabled' | translate }}</th>
+              <th style="border-top: none;">{{ 'operate' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let con of routelist">
+              <td style="cursor:pointer" (click)="showroute = true;routeinfo=[];routeinfo=con">{{con.pid}}</td>
+              <td>{{con.name}}</td>
+              <td>{{con.serviceId}}</td>
+              <td>{{con.path}}</td>
+              <td>{{con.enabled===0?'已停用':'已启用'}}</td>
+              <td>
+                <button class="btn-sm btn-danger" (click)="delroute(con.pid)">{{'delete' | translate }}</button>
+                <button *ngIf="con.enabled===0" class="btn-sm btn-success" style="margin-left:8px" (click)="setenabled(con);">启用</button>
+                &nbsp;<button *ngIf="con.enabled===1" class="btn-sm btn-warning" (click)="setenabled(con);">停用</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  </div>
+  <div  *ngIf="showroute" style="position: fixed;background: rgba(0, 0, 0, 0.5);top:50%;left: 50%;height:100%;width:100%;transform: translate(-50%,-50%);z-index: 100000000;">
+      <div style="padding:0 80px ;background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:620px;width:700px;transform: translate(-50%,-50%);z-index: 100000000;">
+          <h4 style="text-align:center;">详细信息</h4>
+          <div style="line-height:44px">{{ 'name' | translate }}:<input  value="{{routeinfo.name}}" disabled style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <div style="line-height:44px">{{ 'path' | translate }}:<input (change)="routeinfo.path=$event.target.value" value="{{routeinfo.path}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <div style="line-height:44px">{{ 'sensitiveHeaders' | translate }}:<input (change)="routeinfo.sensitiveHeaders=$event.target.value" value="{{routeinfo.sensitiveHeaders}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <div style="line-height:44px">{{ 'description' | translate }}:<input (change)="routeinfo.description=$event.target.value" value="{{routeinfo.description}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <div style="line-height:44px">{{ 'creator' | translate }}:<input (change)="routeinfo.creator=$event.target.value" value="{{routeinfo.creator}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <div style="line-height:44px">{{ 'modifier' | translate }}:<input (change)="routeinfo.modifier=$event.target.value" value="{{routeinfo.modifier}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <div style="line-height:44px">{{ 'serviceId' | translate }}:<input (change)="routeinfo.serviceId=$event.target.value" value="{{routeinfo.serviceId}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <div style="line-height:44px">{{ 'url' | translate }}:<input (change)="routeinfo.url=$event.target.value" value="{{routeinfo.url}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <div style="line-height:44px">{{ 'stripPrefix' | translate }}: <select style="position: absolute;top:397px;left:241px" class="btn-sm btn-success" (change)="setnum('stripPrefix',$event.target.value)" ><option selected="{{routeinfo.stripPrefix===0?'selected':''}}" value="0">是</option><option selected="{{routeinfo.stripPrefix===1?'selected':''}}" value="1">否</option></select></div>
+          <div style="line-height:44px">{{ 'retryable' | translate }}: <select style="position: absolute;top:437px;left:241px" class="btn-sm btn-success" (change)="setnum('retryable',$event.target.value)" ><option selected="{{routeinfo.retryable===0?'selected':''}}" value="0">否</option><option selected="{{routeinfo.retryable===1?'selected':''}}" value="1">是</option></select></div>
+          <div style="line-height:44px">{{ 'createTime' | translate }}:<input value="{{routeinfo.createTime}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <div style="line-height:44px">{{ 'updateTime' | translate }}:<input value="{{routeinfo.updateTime}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <button style="position: absolute;bottom: 14px;right:80px" class="btn-sm btn-warning" (click)="showroute=false">{{'cancel' | translate }}</button>
+          <button style="position: absolute;bottom: 14px;right:140px" class="btn-sm btn-success" (click)="uproute()">{{'ok' | translate }}</button>
+      </div>
+  </div>
+  <div  *ngIf="addroute" style="position: fixed;background: rgba(0, 0, 0, 0.5);top:50%;left: 50%;height:100%;width:100%;transform: translate(-50%,-50%);z-index: 100000000;">
+      <div style="padding:0 80px ;background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:580px;width:700px;transform: translate(-50%,-50%);z-index: 100000000;">
+          <h4 style="text-align:center;">添加路由</h4>
+          <div style="line-height:44px"><span style="color:red">*</span>{{ 'name' | translate }}:<input (change)="setnum('name',$event.target.value)" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <div style="line-height:44px"><span style="color:red">*</span>{{ 'path' | translate }}:<input (change)="routeinfo.path=$event.target.value" value="{{routeinfo.path}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <div style="line-height:44px">{{ 'sensitiveHeaders' | translate }}:<input (change)="routeinfo.sensitiveHeaders=$event.target.value" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <div style="line-height:44px">{{ 'description' | translate }}:<input (change)="routeinfo.description=$event.target.value" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <div style="line-height:44px">{{ 'serviceId' | translate }}:<input disabled="{{service}}" (change)="setnum('serviceId',$event.target.value)" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <div style="line-height:44px">{{ 'url' | translate }}:<input disabled="{{url}}" (change)="setnum('url',$event.target.value)" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+          <div style="line-height:44px">{{ 'stripPrefix' | translate }}: <select style="position: absolute;top:312px;left:241px" class="btn-sm btn-success" (change)="setnum('stripPrefix',$event.target.value)" ><option selected="{{routeinfo.stripPrefix===0?'selected':''}}" value="0">否</option><option selected="{{routeinfo.stripPrefix===1?'selected':''}}" value="1">是</option></select></div>
+          <div style="line-height:44px">{{ 'retryable' | translate }}: <select style="position: absolute;top:352px;left:241px" class="btn-sm btn-success" (change)="setnum('retryable',$event.target.value)" ><option selected="{{routeinfo.retryable===0?'selected':''}}" value="0">否</option><option selected="{{routeinfo.retryable===1?'selected':''}}" value="1">是</option></select></div>
+          <div style="line-height:44px">{{ 'enabled' | translate }}: <select style="position: absolute;top:394px;left:241px" class="btn-sm btn-success" (change)="setnum('enabled',$event.target.value)" ><option selected="{{routeinfo.enabled===0?'selected':''}}" value="0">否</option><option selected="{{routeinfo.enabled===1?'selected':''}}" value="1">是</option></select></div>
+          <button style="position: absolute;bottom: 14px;right:80px" class="btn-sm btn-warning" (click)="addroute=false">{{'cancel' | translate }}</button>
+          <button style="position: absolute;bottom: 14px;right:140px" class="btn-sm btn-success" (click)="addnewroute()">{{'ok' | translate }}</button>  
+      </div>
+  </div>
+  <div *ngIf="sensitive" style="line-height:50px">
+    <input type="text" placeholder="输入敏感词汇" (change)="word=$event.target.value" style="vertical-align:middle;width:150px;display: inline-block" class="form-control input-lg">
+    &nbsp;<button class="btn-sm btn-info" (click)="getasenlist()">搜索敏感词</button>&nbsp;
+    <input type="text" placeholder="输入敏感词汇" (change)="addword=$event.target.value" style="vertical-align:middle;width:150px;display: inline-block" class="form-control input-lg">
+    &nbsp;<button class="btn-sm btn-success" (click)="addsenword()">添加敏感词</button><br><br>
+    <ul class="page" (click)="logindexss($event)">
+      <li class="prev prevv">«</li>
+      <li *ngFor="let s of totalListss" style="width:28px" class="{{s.stylename}}">{{s.num}}</li>
+      <li class="next">»</li>
+    </ul>&nbsp;
+    {{ 'Every page show' | translate }}：<select class="btn-sm btn-info" (change)="setpagesizess($event.target.value)">
+      <option value="10">{{'ten' | translate }}</option>
+      <option value="20">{{'twenty' | translate }}</option>
+      <option value="50">{{'fifty' | translate }}</option>
+      <option value="100">{{'hundred' | translate }}</option>
+    </select>&nbsp;
+    跳到<input type="text" (change)="setpagess($event.target.value)" class="form-control" style="display:inline-block;width:70px;height:30px">页(共{{numss}}页)
+    <br>
+  <br>
+    <table  class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th style="border-top: none;">{{ 'id' | translate }}</th>
+          <th style="border-top: none;">{{ 'word' | translate }}</th>
+          <th style="border-top: none;">{{ 'operate' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let con of senlist">
+          <td>{{con.id}}</td>
+          <td>{{con.word}}</td>
+          <td><button class="btn-sm btn-danger" (click)="delsenword(con.id);">{{'delete' | translate }}</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="whitelist">
+    <button class="btn-sm btn-warning" (click)="showaddwhite=true">添加白名单</button>
+    <br>
+  <br>
+    <table class="table table-hover table-striped">
+      <p></p>
+      <thead>
+        <tr>
+          <th style="border-top: none;">{{ 'path' | translate }}</th>
+          <th style="border-top: none;">{{ 'operate' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let con of whitelisttext">
+          <td><input (change)="modifycon(con,$event)" style="width:40%" [disabled]="true" class="form-control" type="text" value="{{con}}"></td>
+          <td>
+            <button style="display:inline-block" class="btn-sm btn-warning" (click)="whitemodify($event)">{{'modify' | translate }}</button>
+            <button  class="btn-sm btn-info" (click)="updatewhite($event)" style="display:none">{{'ok' | translate }}</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="api">
+      <button class="btn-sm btn-warning" (click)="showaddwhites=true">添加计费API</button>
+      <br>
+  <br>
+      <table class="table table-hover table-striped">
+          <p></p>
+          <thead>
+            <tr>
+              <th style="border-top: none;">{{ 'path' | translate }}</th>
+              <th style="border-top: none;">{{ 'operate' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let con of apilist">
+              <td><input (change)="modifycons(con,$event)" style="width:40%" [disabled]="true" class="form-control" type="text" value="{{con}}"></td>
+              <td>
+                <button style="display:inline-block" class="btn-sm btn-warning" (click)="whitemodifys($event)">{{'modify' | translate }}</button>
+                <button  class="btn-sm btn-info" (click)="updatewhites($event)" style="display:none">{{'ok' | translate }}</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  </div>
+  <div *ngIf="vapi">
+    <button class="btn-sm btn-success" (click)="showvapi = true;addvanapi={}">添加API</button>
+    <br>
+  <br>
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th style="cursor:pointer;border-top: none;" (click)="vorder='id';getvapi()">#</th>
+          <th style="cursor:pointer;border-top: none;" (click)="vorder='mapKey';getvapi()">mapKey</th>
+          <th style="cursor:pointer;border-top: none;" (click)="vorder='mapUrl';getvapi()">mapUrl</th>
+          <th style="cursor:pointer;border-top: none;" (click)="vorder='modle';getvapi()">modle</th>
+          <th style="cursor:pointer;border-top: none;" (click)="vorder='source';getvapi()">source</th>
+          <th style="border-top: none;">{{ 'operate' | translate}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of vapilist">
+          <td style="cursor:pointer" (click)="updatevapi=true;addvanapi={};addvanapi=item;">{{item.id}}</td>
+          <td>{{item.mapKey}}</td>
+          <td>{{item.mapUrl}}</td>
+          <td>{{item.modle}}</td>
+          <td>{{item.source}}</td>
+          <td>
+            <button class="btn-sm btn-danger" (click)="delvapi(item.id)">{{ 'delete' | translate}}</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="updatevapi"style="position: fixed;background: rgba(65, 63, 63, 0.7);top:50%;left: 50%;
+  height:100%;width:100%;z-index: 100000000;;transform: translate(-50%,-50%);
+  line-height: 40px;text-align: center;border-radius: 5px;">
+    <div style="position: fixed;background: white;top:50%;left: 50%;
+    height:350px;width:600px;z-index: 100000000;;transform: translate(-50%,-50%);
+    line-height: 40px;text-align: center;border-radius: 5px;">
+      <h4 style="text-align:center;">api详情</h4>
+      <div style="line-height:44px">id:<input disabled value="{{addvanapi.id}}" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">mapKey:<input value="{{addvanapi.mapKey}}" (change)="addvanapi.mapKey=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">mapUrl:<input value="{{addvanapi.mapUrl}}" (change)="addvanapi.mapUrl=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">method:<input value="{{addvanapi.modle}}" (change)="addvanapi.modle=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">source:<input value="{{addvanapi.source}}" (change)="addvanapi.source=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+      <br>
+      <button class="btn-sm btn-success" style="float:right;margin-right: 26px;" (click)="updatevapis()">确定</button>
+      <button class="btn-sm btn-warning"style="float:right;margin-right: 10px;" (click)="updatevapi = false">取消</button>
+    </div>
+  </div>
+  <div *ngIf="vapiconfig">
+      <button class="btn-sm btn-success" (click)="showvapiconfig = true;addvanapiconfig={}">添加API Key</button>
+      <br>
+  <br>
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th style="cursor:pointer;border-top: none;" (click)="orderconfig='id';getvapiconfig()">#</th>
+            <th style="cursor:pointer;border-top: none;" (click)="orderconfig='appId';getvapiconfig()">appId</th>
+            <th style="cursor:pointer;border-top: none;" (click)="orderconfig='account';getvapiconfig()">account</th>
+            <th style="cursor:pointer;border-top: none;" (click)="orderconfig='appKey';getvapiconfig()">appKey</th>
+            <th style="cursor:pointer;border-top: none;" (click)="orderconfig='source';getvapiconfig()">source</th>
+            <th style="border-top: none;">{{ 'operate' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of apilistconfig">
+            <td style="cursor:pointer" (click)="updatevapiconfig=true;addvanapiconfig={};addvanapiconfig=item;">{{item.id}}</td>
+            <td>{{item.appId}}</td>
+            <td>{{item.account}}</td>
+            <td>{{item.appKey}}</td>
+            <td>{{item.source}}</td>
+            <td>
+              <button class="btn-sm btn-danger" (click)="delvapiconfig(item.id)">{{ 'delete' | translate}}</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+  <div *ngIf="updatevapiconfig"style="position: fixed;background: rgba(65, 63, 63, 0.7);top:50%;left: 50%;
+  height:100%;width:100%;z-index: 100000000;;transform: translate(-50%,-50%);
+  line-height: 40px;text-align: center;border-radius: 5px;">
+    <div style="position: fixed;background: white;top:50%;left: 50%;
+    height:350px;width:600px;z-index: 100000000;;transform: translate(-50%,-50%);
+    line-height: 40px;text-align: center;border-radius: 5px;">
+      <h4 style="text-align:center;">API Key详情</h4>
+      <div style="line-height:44px">id:<input disabled value="{{addvanapiconfig.id}}" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">appId:<input value="{{addvanapiconfig.appId}}" (change)="addvanapiconfig.appId=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">account:<input value="{{addvanapiconfig.account}}" (change)="addvanapiconfig.account=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">appKey:<input value="{{addvanapiconfig.appKey}}" (change)="addvanapiconfig.appKey=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">source:<input value="{{addvanapiconfig.source}}" (change)="addvanapiconfig.source=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+      <br>
+      <button class="btn-sm btn-success" style="float:right;margin-right: 26px;" (click)="updatevapisconfig()">确定</button>
+      <button class="btn-sm btn-warning"style="float:right;margin-right: 10px;" (click)="updatevapiconfig = false">取消</button>
+    </div>
+  </div>
+  <div *ngIf="showtext" style="position: fixed;background: rgba(65, 63, 63, 0.7);top:50%;left: 50%;
+  height:40px;width:250px;z-index: 1000000001;;transform: translate(-50%,-50%);
+  line-height: 40px;text-align: center;border-radius: 5px;color:rgba(233, 164, 164, 0.7)">
+    {{text}}
+  </div>
+  <div *ngIf="showvapi" style="position: fixed;background: rgba(65, 63, 63, 0.7);top:50%;left: 50%;
+  height:100%;width:100%;z-index: 100000000;;transform: translate(-50%,-50%);
+  line-height: 40px;text-align: center;border-radius: 5px;">
+  <div style="position: fixed;background: white;top:50%;left: 50%;
+  height:320px;width:600px;z-index: 100000000;;transform: translate(-50%,-50%);
+  line-height: 40px;text-align: center;border-radius: 5px;">
+    <p></p>
+    <h4 style="text-align:center;">添加API</h4>
+    <div style="line-height:44px"><span style="color:red">*</span>mapKey:<input (change)="addvanapi.mapKey=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+    <div style="line-height:44px"><span style="color:red">*</span>mapUrl:<input (change)="addvanapi.mapUrl=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+    <div style="line-height:44px"><span style="color:red">*</span>method:<input (change)="addvanapi.modle=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+    <div style="line-height:44px"><span style="color:red">*</span>source:<input (change)="addvanapi.source=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+    <br>
+    <button class="btn-sm btn-success" style="float:right;margin-right: 26px;" (click)="addvapi()">添加</button>
+    <button class="btn-sm btn-warning"style="float:right;margin-right: 10px;" (click)="showvapi = false">取消</button>
+  </div>
+  </div>
+  <div *ngIf="showvapiconfig" style="position: fixed;background: rgba(65, 63, 63, 0.7);top:50%;left: 50%;
+  height:100%;width:100%;z-index: 100000000;;transform: translate(-50%,-50%);
+  line-height: 40px;text-align: center;border-radius: 5px;">
+  <div style="position: fixed;background: white;top:50%;left: 50%;
+  height:320px;width:600px;z-index: 100000000;;transform: translate(-50%,-50%);
+  line-height: 40px;text-align: center;border-radius: 5px;">
+    <p></p>
+    <h4 style="text-align:center;">添加API</h4>
+    <div style="line-height:44px"><span style="color:red">*</span>appId:<input (change)="addvanapiconfig.appId=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+    <div style="line-height:44px"><span style="color:red">*</span>account:<input (change)="addvanapiconfig.account=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+    <div style="line-height:44px"><span style="color:red">*</span>appKey:<input (change)="addvanapiconfig.appKey=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+    <div style="line-height:44px"><span style="color:red">*</span>source:<input (change)="addvanapiconfig.source=$event.target.value" style="width:70%;float:right;margin-top:6px;margin-right:26px" class="form-control input-underline input-lg"></div>
+    <br>
+    <button class="btn-sm btn-success" style="float:right;margin-right: 26px;" (click)="addvapiconfig()">添加</button>
+    <button class="btn-sm btn-warning"style="float:right;margin-right: 10px;" (click)="showvapiconfig = false">取消</button>
+  </div>
+  </div>
+</div>
+<div *ngIf="showaddwhites" style="position: fixed;background: rgba(65, 63, 63, 0.7);top:50%;left: 50%;
+height:100%;width:100%;z-index: 100000000;;transform: translate(-50%,-50%);
+line-height: 40px;text-align: center;border-radius: 5px;">
+<div style="position: fixed;background: white;top:50%;left: 50%;
+height:240px;width:500px;z-index: 100000000;;transform: translate(-50%,-50%);
+line-height: 40px;text-align: center;border-radius: 5px;">
+<br>
+{{ 'path' | translate }}: <input type="text" (change)="awhitelists=$event.target.value" style="display:inline-block;width:350px" class="form-control">
+<button class="btn-sm btn-info" style="position:absolute;bottom:30px;right:100px" (click)="addwhites()">{{'ok' | translate }}</button>
+<button class="btn-sm btn-danger" style="position:absolute;bottom:30px;right:40px" (click)="showaddwhites=false">{{'cancel' | translate }}</button>
+</div>
+</div>
+<div *ngIf="publics">
+  短信剩余总条数：{{countnum}}条 <br><br>
+  <a href="https://www.ileapcloud.com/middle-manager/swagger-ui.html" target="__blank">swagger</a><br><br>
+  <a href="http://172.17.171.84:9411" target="__blank">zipkin</a>
+  <br>
+  <br>
+  <h5 style="text-align:center;width: 400px">configcenter:</h5>
+  <p style="border:1px solid #ccc;padding: 10px;width: 400px">
+    <span>key:&nbsp;&nbsp;&nbsp;&nbsp;<input style="width:300px" disabled type="text" value="{{commoninfo.key}}"></span>
+    <br>
+    <br>
+    <span>value: <input type="text" style="width:300px" (change)="commoninfo.value=$event.target.value" value="{{commoninfo.value}}"></span>
+    <br>
+    <br>
+    <button class="btn-sm btn-success" (click)="updatecommoninfo()">修改</button>
+  </p>
+  <h5 style="text-align:center;width: 400px">短信限制：</h5>
+  <p style="border:1px solid #ccc;padding: 10px;width: 400px">
+    <span>key:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" disabled value="{{sms.key}}"></span>
+    <br>
+    <br>
+    <span>value:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="{{sms.value}}" (change)="sms.value=$event.target.value"></span>
+    <br>
+    <br>
+    <button class="btn-sm btn-success" (click)="updatesms()">修改</button>
+  </p>
+  <h5 style="text-align:center;width: 400px">邮箱限制：</h5>
+  <p style="border:1px solid #ccc;padding: 10px;width: 400px">
+    <span>key:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" disabled value="{{mail.key}}"></span>
+    <br>
+    <br>
+    <span>value:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="{{mail.value}}" (change)="mail.value=$event.target.value"></span>
+    <br>
+    <br>
+    <button class="btn-sm btn-success" (click)="updatemail()">修改</button>
+  </p>
+</div>
+<div *ngIf="showaddwhite" style="position: fixed;background: rgba(65, 63, 63, 0.7);top:50%;left: 50%;
+height:100%;width:100%;z-index: 100000000;;transform: translate(-50%,-50%);
+line-height: 40px;text-align: center;border-radius: 5px;">
+<div style="position: fixed;background: white;top:50%;left: 50%;
+height:240px;width:500px;z-index: 100000000;;transform: translate(-50%,-50%);
+line-height: 40px;text-align: center;border-radius: 5px;">
+<br>
+{{ 'path' | translate }}: <input type="text" (change)="awhitelist=$event.target.value" style="display:inline-block;width:350px" class="form-control">
+<button class="btn-sm btn-info" style="position:absolute;bottom:30px;right:100px" (click)="addwhite()">{{'ok' | translate }}</button>
+<button class="btn-sm btn-danger" style="position:absolute;bottom:30px;right:40px" (click)="showaddwhite=false">{{'cancel' | translate }}</button>
+</div>
+</div>

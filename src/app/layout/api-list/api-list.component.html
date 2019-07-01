@@ -1,0 +1,92 @@
+<div *ngIf="showlist">
+    <div>
+    <input type="search" placeholder="{{ 'apiname' | translate }}" (change)="anapiname=$event.target.value" class="form-control input-underline" style="width:300px;display:inline-block">
+      &nbsp;&nbsp;<button class="btn-sm btn-info" (click)="search()">{{ 'Search' | translate }}</button>
+    </div>
+    <br>
+  <ul (click)="apiindex($event)" class="page">
+    <li class="prev prevv">«</li>
+    <li *ngFor="let s of totalList" style="width:28px" class="{{s.stylename}}">{{s.num}}</li>
+    <li class="next">»</li>
+  </ul>&nbsp;&nbsp;&nbsp;&nbsp;
+  {{ 'Every page show' | translate }}：<select style="padding: 3px; vertical-align: middle; margin-top: -1px;" (change)="setorder($event)">
+    <option value="">{{ 'please select' | translate }}</option>
+    <option *ngFor="let i of namelist" value="{{i}}">{{i}}</option>
+    <option value="10">{{ 'ten' | translate }}</option>
+    <option value="20">{{ 'twenty' | translate }}</option>
+    <option value="{{count}}">{{ 'all' | translate }}</option>
+  </select>&nbsp;&nbsp;
+  <button class="btn-sm btn-success" (click)="addApi()">{{ 'add API' | translate }}</button>
+  <br>
+  <br>
+  <table class="table table-hover table-striped">
+    <thead>
+      <tr style="line-height: 60px;">
+        <th (click)="orderBy = 'id';getapilist()" style="cursor:pointer;width: 70px;border-top: none;">#<span class="{{calssn}}" (click)="setorderby();$event.stopPropagation()"></span></th>
+        <th (click)="orderBy= 'apiname';getapilist()" style="cursor:pointer;border-top: none;">{{ 'apiname' | translate }}</th>
+        <th (click)="orderBy= 'apiurl';getapilist()" style="cursor:pointer;border-top: none;">{{ 'apiURL' | translate }}</th>
+        <th (click)="orderBy= 'category';getapilist()" style="cursor:pointer;border-top: none;">{{ 'category' | translate }}</th>
+        <th style="border-top: none;">{{ 'image' | translate }}</th>
+        <th style="border-top: none;">{{ 'isShow' | translate}}</th>
+        <th style="width:100px;border-top: none">{{ 'operate' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of apilist">
+        <td style="cursor:pointer" (click)="updateApi(item)">{{item.id}}</td>
+        <td>{{item.apiname}}</td>
+        <td>{{item.apiurl}}</td>
+        <td>{{item.category}}</td>
+        <td><img src="{{item.image}}" width="60px"></td>
+        <td>
+          <button *ngIf="item.isShow==='0'" class="btn-sm btn-success" (click)="updateaApi(item,'1')">{{ 'yes' | translate }}</button>
+          <button *ngIf="item.isShow==='1'" class="btn-sm btn-success" (click)="updateaApi(item,'0')">{{ 'no' | translate }}</button>
+        </td>
+        <td>
+          <button class="btn-sm btn-danger" style="margin-top:4px" (click)="delApi(item)">{{ 'del API' | translate }}</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="showinfo" style="position: fixed;background: rgba(0, 0, 0, 0.5);top:50%;left: 50%;height:100%;width:100%;transform: translate(-50%,-50%);z-index: 100000000;">
+<div style="padding: 16px;background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:600px;width:800px;transform: translate(-50%,-50%);z-index: 100000000;">
+  <div *ngIf="showadd">
+      <div style="line-height:44px">{{ 'apiname' | translate }}:<input (change)="apiInfo.apiname=$event.target.value" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'apiURL' | translate }}:<input (change)="apiInfo.apiurl=$event.target.value" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'category' | translate }}:<input (change)="apiInfo.category=$event.target.value" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'description' | translate }}:<input (change)="apiInfo.description=$event.target.value" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'method' | translate }}:<input (change)="apiInfo.method=$event.target.value" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'price' | translate }}:<input (change)="apiInfo.price=$event.target.value" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'provider' | translate }}:<input (change)="apiInfo.provider=$event.target.value" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'result' | translate }}:<input (change)="apiInfo.result=$event.target.value" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'params' | translate }}:<input (change)="apiInfo.params=$event.target.value" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'state' | translate }}:<input (change)="apiInfo.state=$event.target.value" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'tags' | translate }}:<input (change)="apiInfo.tags=$event.target.value" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'image' | translate }}:<input (change)="upimage($event)" type="file" class="form-control input-underline input-lg" style="width:70%;float:right;margin-top:6px"></div>
+      <button class="btn-sm btn-danger" style="position:absolute;bottom:10px;right:80px" (click)="showadd=false;showinfo=false">{{'cancel' | translate }}</button>
+      <button class="btn-sm btn-success" (click)="addApis()" style="position:absolute;bottom:10px;right:20px">{{'ok' | translate }}</button>
+  </div>
+  <div *ngIf="showupdate">
+      <div style="line-height:44px">{{ 'id' | translate }}:<input disabled value="{{apiInfo.id}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'apiname' | translate }}:<input (change)="apiInfo.apiname=$event.target.value" value="{{apiInfo.apiname}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'apiURL' | translate }}:<input (change)="apiInfo.apiurl=$event.target.value" value="{{apiInfo.apiurl}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'category' | translate }}:<input (change)="apiInfo.category=$event.target.value" value="{{apiInfo.category}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'description' | translate }}:<input (change)="apiInfo.description=$event.target.value" value="{{apiInfo.description}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'method' | translate }}:<input (change)="apiInfo.method=$event.target.value" value="{{apiInfo.medthod}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'price' | translate }}:<input (change)="apiInfo.price=$event.target.value" value="{{apiInfo.price}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'provider' | translate }}:<input (change)="apiInfo.provider=$event.target.value" value="{{apiInfo.provider}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'result' | translate }}:<input (change)="apiInfo.result=$event.target.value" value="{{apiInfo.result}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'state' | translate }}:<input (change)="apiInfo.state=$event.target.value" value="{{apiInfo.state}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'tags' | translate }}:<input (change)="apiInfo.tags=$event.target.value" value="{{apiInfo.tags}}" style="width:70%;float:right;margin-top:6px" class="form-control input-underline input-lg"></div>
+      <div style="line-height:44px">{{ 'image' | translate }}:<input (change)="upimage($event)" type="file" class="form-control input-underline input-lg" style="width:70%;float:right;margin-top:6px"></div>
+      <button class="btn-sm btn-danger" style="position:absolute;bottom:10px;right:90px" (click)="showupdate=false;showinfo=false">{{'cancel' | translate }}</button>
+      <button class="btn-sm btn-success"style="position:absolute;bottom:10px;right:20px" (click)="updateApis()">{{'modify' | translate }}</button>
+  </div>
+</div>
+</div>
+<div *ngIf="showtext" style="position: fixed;background: rgba(65, 63, 63, 0.7);top:50%;left: 50%;
+height:40px;width:250px;z-index: 100000000;;transform: translate(-50%,-50%);
+line-height: 40px;text-align: center;border-radius: 5px;color:rgba(233, 164, 164, 0.7)">
+  {{text}}
+</div>

@@ -1,0 +1,117 @@
+
+table{
+  margin-top: 10px;
+  width:100%;
+  table-layout:fixed;/* 只有定义了表格的布局算法为fixed，下面td的定义才能起作用。 */
+  overflow-y: hidden;
+}
+td{
+  position: relative;
+  word-wrap:break-word;
+  word-break:break-all;
+  overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+  text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+.bt{
+  border-top: none;
+}
+th{
+  position: relative;
+}
+ul,li{
+  list-style: none;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+.ordertop{
+  border: 6px solid transparent;
+  border-bottom: 6px solid #000;
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  content: ' ';
+  cursor: pointer;
+}
+.orderbottom{
+  border: 6px solid transparent;
+  border-top: 6px solid #000;
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 38px;
+  left: 30px;
+  cursor: pointer;
+  content: ' ';
+}
+li{
+  height: 40px;
+  border:1px solid rgb(190, 189, 189);
+  line-height: 38px;
+  text-align: center;
+  cursor: pointer;
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  -ms-user-select: none; 
+  -khtml-user-select: none; 
+  user-select: none;
+  border-right: none;
+  width: 36px;
+}
+li:last-child{
+  border-right: 1px solid rgb(190, 189, 189);
+  border-radius: 0 4px 4px 0;
+}
+li:first-child{
+  border-radius:4px 0 0 4px;
+}
+.active{
+  background-color: rgb(49, 119, 184);
+  color: aliceblue;
+}
+ul,li{
+  list-style: none;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+li{
+  height: 40px;
+  border:1px solid rgb(190, 189, 189);
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  -ms-user-select: none; 
+  -khtml-user-select: none; 
+  user-select: none;
+  border-right: none;
+  width: 38px !important;
+}
+li:nth-child(11){
+  border-right: 1px solid rgb(190, 189, 189);
+}
+.actives{
+  background-color: rgb(49, 119, 184);
+  color: aliceblue;
+}
+li.prev{
+  width: 38px !important;
+  border: 1px solid rgb(190, 189, 189);
+  border-radius: 4px;
+  border-radius:4px 0 0 4px;
+  border-right: none;
+}
+li.prevv{
+  background-color: rgb(223, 222, 222);
+}
+li.next{
+  width: 38px !important;
+  border: 1px solid rgb(190, 189, 189);
+  border-radius: 0 4px 4px 0;
+  border-left: none;
+}

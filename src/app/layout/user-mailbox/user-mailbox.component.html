@@ -1,0 +1,46 @@
+<div *ngIf="show">
+  <br>
+  <ul class="page" (click)="logindex($event)">
+    <li *ngIf="prev" class="prev prevv">«</li>
+    <li id="li" *ngFor="let s of totalList" style="width:28px" class="{{s.stylename}}">{{s.num}}</li>
+    <li *ngIf="prev" class="next">»</li>
+  </ul>&nbsp;&nbsp;&nbsp;&nbsp;
+  {{ 'Every page show' | translate }}：
+  <select (change)="setorder($event)" style="padding: 4px;vertical-align: top">
+    <option value="">{{ 'please select' | translate }}</option>
+    <option value="10">{{ 'ten' | translate }}</option>
+    <option value="15">{{ 'fifteen' | translate }}</option>
+    <option value="20">{{ 'twenty' | translate }}</option>
+    <option value="{{count}}">{{ 'all' | translate }}</option>
+  </select>
+  <button class=" btn-sm btn-success" style="margin-left: 10px"><a style="color:#000" href="javascript:" id="as" (click)="toExcel('tab',$event)">{{ 'export form' | translate }}</a></button>
+  <br>
+  <br>
+  <input type="text" (change)="email=$event.target.value" placeholder="email" class="form-control" style="display:inline-block;width:200px;height:30px;margin-right: 10px;">
+  <button (click)="totalList = [];pageNum=1;getmaillist()" class="btn-sm btn-info">搜索</button>
+  <br>
+  <br>
+  <table  class="table table-hover table-striped" id="tab">
+    <thead>
+      <tr>
+        <th class="bt">{{ 'id' | translate }}</th>
+        <th class="bt">{{ 'email' | translate }}</th>
+        <th class="bt">{{ 'createTimes' | translate }}</th>
+        <th class="bt" style="width: 100px;">{{ 'operate' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let con of mailList">
+        <td>{{con.id}}</td>
+        <td>{{con.email}}</td>
+        <td>{{con.createTime}}</td>
+        <td><button class="btn-sm btn-danger" (click)="delmail(con.id,con.email)">删除</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="showtext" style="position: fixed;background: rgba(65, 63, 63, 0.7);top:50%;left: 50%;
+height:40px;width:250px;z-index: 100000000;;transform: translate(-50%,-50%);
+line-height: 40px;text-align: center;border-radius: 5px;color:rgba(233, 164, 164, 0.7)">
+  {{text}}
+</div>

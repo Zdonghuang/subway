@@ -1,0 +1,40 @@
+.cursor{
+  cursor: pointer;
+}
+.bigbox{
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  top:50%;
+  left: 50%;
+  height:100%;
+  width:100%;
+  transform: translate(-50%,-50%);
+  z-index: 100000000;
+}
+.ltbox{
+  padding: 30px;
+  background:#fff;
+  position: fixed;
+  border:1px solid #666;
+  border-radius: 4px;
+  top:50%;
+  left: 50%;
+  height:540px;
+  width:600px;
+  transform: translate(-50%,-50%);
+  z-index: 100000000;
+}
+.ltbox button:nth-child(1) {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+}
+.ltbox button:nth-child(2) {
+  position: absolute;
+  bottom: 20px;
+  right: 100px;
+}
+.ltbox h4{
+  text-align: center;
+  margin-bottom: 20px;
+}

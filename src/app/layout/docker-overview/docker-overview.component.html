@@ -1,0 +1,41 @@
+<div [@routerTransition]>
+    <!-- <app-page-header [heading]="'容器概览'" [icon]="'fa-pie-chart'"></app-page-header> -->
+    <div class="row">
+        <div class="col col-sm-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    {{ 'Overview' | translate }}
+                </div>
+                <div class="card-body" *ngIf="doughnutChartLabels.length > 0">
+                    <canvas baseChart height="180px" 
+                    [data]="doughnutChartData" 
+                    [labels]="doughnutChartLabels" 
+                    [chartType]="doughnutChartType" 
+                    [colors]="donutColors"
+                    (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col col-sm-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    {{ 'Containers' | translate }}
+                </div>
+                <div class="card-body">
+                    <ul class="list-group" *ngFor="let con of containers">
+                        <li class="list-group-item d-flex justify-content-between align-items-center" *ngIf="chartFilter(con.state)">
+                            <a [routerLink]="['/docker-detail', con.id]" [routerLinkActive]="['router-link-active']">
+                                {{con.name}}
+                            </a>
+                          <span [class]="stateClass(con.state)">{{con.status}}</span>
+                        </li>
+                      </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="loader" *ngIf="busy"></div>
+</div>

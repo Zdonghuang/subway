@@ -1,0 +1,217 @@
+<div *ngIf="showlist">
+    <div *ngIf="show">
+        <div>
+            <input placeholder="{{ 'mobile' | translate }}" style="width:300px;display: inline-block;" (change)="finduser = $event.target.value;" class="form-control">
+            <button style="margin:-4px 0 0 10px" class="btn-sm btn-info" (click)="getlist(1)">{{ 'Search' | translate }}</button>
+        </div>
+        <br>
+        <ul (click)="index($event)" class="page">
+          <li class="prev prevv">«</li>
+          <li *ngFor="let i of totalPages" class="{{i.stylename}}" id="{{i.index}}">{{i.num}}</li>
+          <li class="next">»</li>
+        </ul>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>{{ 'Every page show' | translate }}： <select style="padding:4px;vertical-align: middle;" (change)="setpagesize($event.target.value)">
+            <option value="">{{ 'please select' | translate }}</option>
+          <option value="10">{{ 'ten' | translate }}</option>
+          <option value="15">{{ 'fifteen' | translate }}</option>
+          <option value="20">{{ 'twenty' | translate }}</option>
+          <option value="{{counts}}">{{ 'all' | translate }}</option>
+        </select></span>
+        <span style="color:seagreen;margin-left: 40px;font-size: 22px">{{tip}}</span>
+        <button class="btn-sm btn-warning" style="margin-left:10px" (click)="this.showadd=!this.showadd">{{ 'add user' | translate }}</button>
+        <button class=" btn-sm btn-success" style="margin-left: 10px"><a style="color:#000" href="javascript:" id="as" (click)="toExcel('tab',$event)">{{ 'export form' | translate }}</a></button>
+        <div *ngIf="showadd" style="position: fixed;background: rgba(0, 0, 0, 0.7);top:0%;left: 0%;height:100%;width:100%;z-index: 100000000;">
+          <div style="background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:600px;width:800px;transform: translate(-50%,-50%);z-index: 100000000;">
+            <div style="width:30%;margin:0 auto;color:orangered;font-size: 22px;height:40px">{{tips}}</div>
+              <div class="form-group" class="input">
+                <span style="color:red">*</span>{{ 'username' | translate }}：<input class="form-control input-underline input-lg inputtext" type="text" (change)="adduser.username = $event.target.value" placeholder="username">
+              </div>
+              <div class="form-group" class="input">
+                <span style="color:red">*</span>{{ 'mobile' | translate }}：<input class="form-control input-underline input-lg inputtext" type="text" (change)="adduser.mobile = $event.target.value" placeholder="mobile">
+              </div>
+              <div class="form-group" class="input">
+                <span style="color:red">*</span>{{ 'email' | translate }}：<input class="form-control input-underline input-lg inputtext" type="text" (change)="adduser.email = $event.target.value" placeholder="email">
+              </div>
+              <div class="form-group" class="input">
+                  <span style="color:red">*</span>{{ 'password' | translate }}：<input class="form-control input-underline input-lg inputtext" type="text" (change)="adduser.password = $event.target.value" placeholder="password">
+              </div>
+              <div class="form-group" class="input">
+                {{ 'fullname' | translate }}：<input class="form-control input-underline input-lg inputtext" type="text" (change)="adduser.fullanme = $event.target.value" placeholder="fullanme">
+              </div>
+              <div class="form-group" class="input">
+                {{ 'IDcard' | translate }}：<input class="form-control input-underline inputtext"  type="text" (change)="adduser.extend.IDcard = $event.target.value" placeholder="IDcard">
+              </div>
+              <div class="form-group" class="input">
+                {{ 'company' | translate }}：<input class="form-control input-underline input-lg inputtext" type="text" (change)="adduser.extend.company = $event.target.value" placeholder="company">
+              </div>
+              <div class="form-group" class="input">
+                {{ 'job' | translate }}：<input class="form-control input-underline input-lg inputtext" type="text" (change)="adduser.extend.job = $event.target.value" placeholder="job">
+              </div>
+              <button (click)="addnewuser()" class="btn-sm btn-sm" style="position: absolute;bottom:40px;right:80px;background:tomato;">{{ 'add' | translate }}</button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <button (click)="showadd = false" class="btn-sm btn-sm" style="position: absolute;bottom:40px;right:160px;background:yellowgreen;">{{ 'cancel' | translate }}</button>&nbsp;&nbsp;&nbsp;&nbsp;
+              
+          </div>
+        </div>
+        <br>
+        <br>
+        <table class="table table-hover table-striped" id="tab">
+          <thead>
+          <tr style="line-height:60px">
+              <th style="min-width:70px;border-top: none;"><span (click)="setorder('id')">#</span><span (click)="setorderby()" class="{{classn}}"></span></th>
+              <th (click)="setorder('mobile')" style="min-width:130px;border-top: none;">{{ 'mobile' | translate }}</th>
+              <th (click)="setorder('username')" style="min-width:130px;border-top: none;">{{ 'username' | translate }}</th>
+              <th (click)="setorder('email')" style="min-width:130px;border-top: none;">{{ 'email' | translate }}</th>
+              <th (click)="setorder('createTime')" style="border-top: none;">{{ 'createTime' | translate }}</th>
+              <th style="border-top: none;">{{ 'licensePic' | translate }}</th>
+              <th style="border-top: none;">{{ 'personPic' | translate }}</th>
+              <th style="min-width:60px;border-top: none;">{{ 'app' | translate }}</th>
+              <th style="border-top: none;width:90px;">{{ 'operate' | translate }}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let con of userlist" class="">
+              <td style="cursor:pointer" (click)="showmodel(con)">{{con.id}}</td>
+              <td>{{con.mobile}}</td>
+              <td>{{con.username}}</td>
+              <td>{{con.email}}</td>
+              <td>{{con.createTime}}</td>
+              <td><img src="{{con.extend.companyLicensePic}}" width="50px" (click)="bigPic(con.extend.companyLicensePic,1,con)"></td>
+              <td><img src="{{con.extend.personalIdPic[0].url}}" width="50px" (click)="bigPic(con.extend.personalIdPic[0].url,2,con)">
+                  &nbsp;<img src="{{con.extend.personalIdPic[1].url}}" width="50px"  (click)="bigPic(con.extend.personalIdPic[1].url,3,con)"></td>
+              <td><a href="javascript:" (click)="getApp(con.id,con.username,1);orderBy='createTime'">{{ 'look' | translate }}</a></td>
+              <td><button class="btn-sm btn-sm btn-danger" (click)="deluser(con.id,con.username)">{{ 'delete' | translate }}</button>
+          </tr>
+          <tr *ngFor="let con of anuser">
+              <td style="cursor:pointer" (click)="showmodel(con)">{{con.id}}</td>
+              <td>{{con.mobile}}</td>
+              <td>{{con.username}}</td>
+              <td>{{con.email}}</td>
+              <td>{{con.createTime}}</td>
+              <td><img src="{{con.extend.companyLicensePic}}" width="50px" (click)="bigPic(con.extend.companyLicensePic,1,con)"></td>
+              <td><img src="{{con.extend.personalIdPic[0].url}}" width="50px" (click)="bigPic(con.extend.personalIdPic[0].url,2,con)">
+                  &nbsp;<img src="{{con.extend.personalIdPic[1].url}}" width="50px"  (click)="bigPic(con.extend.personalIdPic[1].url,3,con)"></td>
+              <td><a href="javascript:" (click)="getApp(con.id,con.username,1);orderBy='createTime'">{{ 'look' | translate }}</a></td>
+              <td>
+                <button class="btn-sm btn-sm btn-danger" (click)="deluser(con.id,con.username)">{{ 'delete' | translate }}</button>
+              </td>
+          </tr>
+          </tbody>
+      </table>
+      <div  *ngIf="showimg" style="position: fixed;background: rgba(0, 0, 0, 0.7);top:0%;left: 0%;height:100%;width:100%;z-index: 100000000;">
+      <div style="background:#fff;position: absolute;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:80%;width:60%;transform: translate(-50%,-50%);z-index: 100000000;">
+      <img src="{{src}}"
+      style="margin-top:180px;margin-left: 50%;max-height:80%;max-width:70%;transform: translate(-50%,-50%);z-index: 100000000;">
+      <div  style="color:red;position:absolute;bottom:150px;right:50%;transform: translate(50%,50%);font-size: 20px">{{tis}}</div>
+      <div class="form-group" style="color:peru;position:absolute;bottom:60px;right:45%;transform: translate(50%,50%);" >
+      更换图片：<input type="file" class="form-control input-underline input-lg" (change)="updataImg($event)"></div>
+      <button class="btn-success btn-sm" style="position:absolute;bottom:50px;right:100px" (click)="upuserpic()">{{'ok' | translate }}</button>
+      <button class="btn-info btn-sm" style="position:absolute;bottom:50px;right:150px" (click)="showimg = false">{{'cancel' | translate }}</button>
+      </div>
+      </div>
+    </div>
+      <div *ngIf="!show">
+          <ul (click)="appindex($event.target.innerHTML)">
+          <li *ngFor="let s of apptotalPages" style="width:28px" class="{{s.stylename}}" id="{{s.index}}">{{s.num}}</li>
+          </ul>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="btn-sm btn-success" (click)="show = !show;orderBy='createTime';appid=''" style="float:right">{{ 'go back' | translate }}
+            </button>
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr style="line-height:60px">
+              <th class="bt" (click)="setorder('id')"># <span class="{{classn}}" (click)="setorderby()"></span></th>
+              <th class="bt" (click)="setorder('appname')">{{ 'appname' | translate }}</th>
+              <th class="bt" (click)="setorder('appUrl')">{{ 'appUrl' | translate }}</th>
+              <th class="bt" (click)="setorder('bundleId')">{{ 'bundleId' | translate }}</th>
+              <th class="bt">{{ 'image' | translate }}</th>
+              <th class="bt">{{ 'operate' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of appList">
+              <td style="cursor:pointer" (click)="mApp = true; App = item">{{item.id}}</td>
+              <td>{{item.appname}}</td>
+              <td><a href="{{item.appUrl}}">{{item.appUrl}}</a></td>
+              <td>{{item.bundleId}}</td>
+              <td><img src="{{item.image}}" width="60px" (click)="appPic(item)"></td>
+              <td>
+                <button class="btn-sm btn-danger" (click)="delapp(item.id,item.appname)">{{ 'delete' | translate }}</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div  *ngIf="modify" style="position: fixed;background: rgba(0, 0, 0, 0.5);top:50%;left: 50%;height:100%;width:100%;transform: translate(-50%,-50%);z-index: 100000000;">
+        <div style="background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:600px;width:800px;transform: translate(-50%,-50%);z-index: 100000000;">
+          <div class="form-group" style="font-size: 22px;margin: 10px 0 0 300px">用户信息 <span style="margin-left:20px;font-size: 20px;color:springgreen">{{tis}}</span></div>
+          <div class="form-group" style="width:80%;margin: 36px auto 8px; line-height:38px">{{ 'id' | translate }}：
+            <input disabled type="text" value="{{userinfo.id}}" class="boxinput form-control input-underline input-lg"></div>
+          <div class="form-group box">{{ 'mobile' | translate }}：
+            <input (change)="userinfo.mobile=$event.target.value" type="text" value="{{userinfo.mobile}}" class="boxinput form-control input-underline input-lg"></div>
+          <div class="form-group box">{{ 'fullname' | translate }}：
+            <input (change)="userinfo.fullname=$event.target.value" type="text" value="{{userinfo.fullname}}" class="boxinput form-control input-underline input-lg"></div>
+          <div class="form-group box">{{ 'username' | translate }}：
+            <input (change)="userinfo.username=$event.target.value" type="text" value="{{userinfo.username}}" class="boxinput form-control input-underline input-lg"></div>
+          <div class="form-group box">{{ 'IDcard' | translate }}：
+            <input (change)="userinfo.extend.IDcard=$event.target.value" type="text" value="{{userinfo.extend.IDcard}}" class="boxinput form-control input-underline input-lg"></div>
+          <div class="form-group box">{{ 'company' | translate }}：
+            <input (change)="userinfo.extend.company=$event.target.value" type="text" value="{{userinfo.extend.company}}" class="boxinput form-control input-underline input-lg"></div>
+          <div class="form-group box">{{ 'job' | translate }}：
+            <input (change)="userinfo.extend.job=$event.target.value" type="text" value="{{userinfo.extend.job}}" class="boxinput form-control input-underline input-lg"></div>
+          <div class="form-group box">{{ 'email' | translate }}：
+            <input (change)="userinfo.email=$event.target.value" type="text" value="{{userinfo.email}}" class="boxinput form-control input-underline input-lg"></div>
+          <div class="form-group box">{{ 'createTime' | translate }}：
+            <input (change)="userinfo.createTime=$event.target.value" type="text" value="{{userinfo.createTime}}" class="boxinput form-control input-underline input-lg"></div>
+          <div class="form-group box">{{ 'updateTime' | translate }}：
+            <input (change)="userinfo.updateTime=$event.target.value" type="text" value="{{userinfo.updateTime}}" class="boxinput form-control input-underline input-lg"></div>
+          <button class="btn-sm btn-sm" (click)="upuserinfo()" style="position:absolute;bottom:20px;right:78px;background:tomato;">{{'modify' | translate }}</button>
+          <button class="btn-sm btn-sm" (click)="modify = false" style="position:absolute;bottom:20px;right:160px;background:yellowgreen;">{{'cancel' | translate }}</button>
+        </div>
+      </div>
+      <div  *ngIf="mApp" style="position: fixed;background: rgba(0, 0, 0, 0.5);top:50%;left: 50%;height:100%;width:100%;transform: translate(-50%,-50%);z-index: 100000000;">
+          <div style="background:#fff;position: fixed;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:620px;width:800px;transform: translate(-50%,-50%);z-index: 100000000;">
+            <div class="form-group" style="font-size: 22px;margin: 10px 0 0 300px">APP信息 <span style="margin-left:20px;font-size: 20px;color:springgreen">{{tis}}</span></div>
+            <div class="form-group" style="width:80%;margin: 6px auto 8px; line-height:38px">{{ 'id' | translate }}：
+              <input disabled type="text" value="{{App.id}}" class="boxinput form-control input-underline input-lg"></div>
+              <div class="form-group" style="width:80%;margin: 6px auto 8px; line-height:38px">appId：
+                <input disabled type="text" value="{{App.appId}}" class="boxinput form-control input-underline input-lg"></div>
+            <div class="form-group box">{{ 'appname' | translate }}：
+              <input (change)="App.appname=$event.target.value" type="text" value="{{App.appname}}" class="boxinput form-control input-underline input-lg"></div>
+            <div class="form-group box">{{ 'appUrl' | translate }}：
+              <input (change)="App.appUrl=$event.target.value" type="text" value="{{App.appUrl}}" class="boxinput form-control input-underline input-lg"></div>
+            <div class="form-group box">{{ 'bundleId' | translate }}：
+              <input (change)="App.bundleId=$event.target.value" type="text" value="{{App.bundleId}}" class="boxinput form-control input-underline input-lg"></div>
+            <div class="form-group box">{{ 'version' | translate }}：
+              <input (change)="App.version=$event.target.value" type="text" value="{{App.version}}" class="boxinput form-control input-underline input-lg"></div>
+            <div class="form-group box">{{ 'category' | translate }}：
+              <input (change)="App.category=$event.target.value" type="text" value="{{App.category}}" class="boxinput form-control input-underline input-lg"></div>
+            <div class="form-group box">{{ 'text' | translate }}：
+              <input (change)="App.description=$event.target.value" type="text" value="{{App.description}}" class="boxinput form-control input-underline input-lg"></div>
+            <div class="form-group box">{{ 'createTime' | translate }}：
+                <input (change)="App.createTime=$event.target.value" type="text" value="{{App.createTime}}" class="boxinput form-control input-underline input-lg"></div>
+            <div class="form-group box">{{ 'state' | translate }}：
+              <input (change)="App.state=$event.target.value" type="text" value="{{App.state}}" class="boxinput form-control input-underline input-lg"></div>
+            <div class="form-group box">{{ 'updateTime' | translate }}：
+              <input (change)="App.updateTime=$event.target.value" type="text" value="{{App.updateTime}}" class="boxinput form-control input-underline input-lg"></div>
+            <button class="btn-sm btn-sm" (click)="upappinfo()" style="position:absolute;bottom:20px;right:78px;background:tomato;">{{'modify' | translate }}</button>
+            <button class="btn-sm btn-sm" (click)="mApp = false" style="position:absolute;bottom:20px;right:150px;background:yellowgreen;">{{'cancel' | translate }}</button>
+          </div>
+      </div>
+      <div  *ngIf="showappimg" style="position: fixed;background: rgba(0, 0, 0, 0.7);top:0%;left: 0%;height:100%;width:100%;z-index: 100000000;">
+      <div style="background:#fff;position: absolute;border:1px solid #666;border-radius: 4px;top:50%;left: 50%;height:80%;width:60%;transform: translate(-50%,-50%);z-index: 100000000;">
+        <img src="{{src}}"
+        style="margin-top:180px;margin-left: 50%;max-height:80%;max-width:70%;transform: translate(-50%,-50%);z-index: 100000000;">
+        <div  style="color:red;position:absolute;bottom:150px;right:50%;transform: translate(50%,50%);font-size: 20px">{{tis}}</div>
+        <div class="form-group" style="color:peru;position:absolute;bottom:60px;right:45%;transform: translate(50%,50%);" >
+        更换图片：<input type="file" class="form-control input-underline input-lg" (change)="updataImgs($event)"></div>
+        <button class="btn-success btn-sm" style="position:absolute;bottom:50px;right:100px" (click)="upapppic()">{{'ok' | translate }}</button>
+        <button class="btn-info btn-sm" style="position:absolute;bottom:50px;right:150px" (click)="showappimg = false">{{'cancel' | translate }}</button>
+        </div>
+        </div>
+  </div>
+  <div *ngIf="showtext" style="position: fixed;background: rgba(65, 63, 63, 0.7);top:50%;left: 50%;
+  height:40px;width:250px;z-index: 100000000;;transform: translate(-50%,-50%);
+  line-height: 40px;text-align: center;border-radius: 5px;color:rgba(233, 164, 164, 0.7)">
+  {{text}}
+  </div>
+  
+  

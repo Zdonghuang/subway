@@ -1,0 +1,23 @@
+.list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  height: 76px;
+}
+.list li{
+  position: relative;
+  width: 150px;
+  height: 44px;
+  line-height: 44px;
+  text-align: center;
+  color: #fff;
+  background-color: rgba(44, 44, 44, 0.74);
+  float: left;
+  cursor: pointer;
+  border-right: 1px solid rgba(255, 255, 255, 0.267);
+}
+.list li.active{
+  color: rgb(87, 148, 228);
+  background-color: rgba(238, 236, 236, 0.63);
+  border-bottom: none;
+}
